@@ -78,14 +78,22 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
         <label class="field"><span>ความสูง (height)</span><input id="height" type="number" min="100" max="1600" step="50" value="400"></label>
         <label class="field"><span>ระยะห่างเส้นกริด</span><input id="grid" type="number" min="10" max="200" step="10" value="50"></label>
         <label class="field"><span>ขนาดจุด</span><input id="pointSize" type="number" min="2" max="12" value="4"></label>
-        <label class="field"><span>เครื่องมือ</span><select id="shape"><option value="select">เลือก / ขยับ / ปรับขนาด</option><option value="polygon">Pen / Polygon (คลิกลากเพื่อทำเส้นโค้ง)</option><option value="anchor">เพิ่มจุดยึด (Add Anchor Point)</option><option value="convert">แปลงจุด Convert Point (ลากจากจุด = ทำให้โค้ง / คลิก = มุมแหลม)</option><option value="line">เส้น</option><option value="rect">สี่เหลี่ยมผืนผ้า</option><option value="oval">วงรี / วงกลม</option><option value="triangle">สามเหลี่ยม</option><option value="point">จุด</option></select></label>
+        <label class="field"><span>เครื่องมือ</span><select id="shape"><option value="select">เลือก / ขยับ / ปรับขนาด</option><option value="ref">ย้ายรูป Reference</option><option value="polygon">Pen / Polygon (คลิกลากเพื่อทำเส้นโค้ง)</option><option value="anchor">เพิ่มจุดยึด (Add Anchor Point)</option><option value="convert">แปลงจุด Convert Point (ลากจากจุด = ทำให้โค้ง / คลิก = มุมแหลม)</option><option value="line">เส้น</option><option value="rect">สี่เหลี่ยมผืนผ้า</option><option value="oval">วงรี / วงกลม</option><option value="triangle">สามเหลี่ยม</option><option value="point">จุด</option></select></label>
         <div id="toolOptions"><label class="color-field">สี Fill<input id="fillColor" type="color" value="#f6c453"></label><label class="color-field">สี Outline<input id="outlineColor" type="color" value="#202820"></label></div>
         <label class="field"><span>ความหนาเส้น</span><input id="lineWidth" type="number" min="1" max="20" value="3"></label>
         <label class="check"><input id="fillEnabled" type="checkbox" checked> เปิดใช้สี Fill</label>
         <label class="check"><input id="outlineEnabled" type="checkbox" checked> เปิดใช้สี Outline</label>
         <label class="check"><input id="snap" type="checkbox"> ล็อกจุดให้ตรงเส้นกริด</label>
         <label class="check"><input id="labels" type="checkbox" checked> แสดงชื่อจุดและพิกัด</label>
-        <div class="actions"><button class="primary" id="apply">ปรับขนาด Canvas</button><button class="secondary" id="finish">จบรูป / วางรูป (Enter)</button><button class="secondary" id="dupShape">ทำสำเนารูปที่เลือก (Ctrl+D)</button><button class="ghost" id="delShape">ลบรูปที่เลือก (Del)</button><button class="secondary" id="undo">ย้อนกลับ (Ctrl+Z)</button><button class="ghost" id="clear">ล้าง Layer นี้</button></div><h2 style="margin-top:22px">บันทึก / โหลด</h2><div class="actions"><button class="primary" id="saveProject">บันทึกโปรเจกต์</button><button class="secondary" id="loadProjectBtn">โหลดโปรเจกต์</button><input id="loadProject" type="file" accept=".json,application/json" hidden></div><p class="hint">บันทึกเป็นไฟล์ JSON เพื่อเก็บทุก Layer รูปทรง และการตั้งค่าไว้เปิดต่อภายหลัง</p>
+        <div class="actions"><button class="primary" id="apply">ปรับขนาด Canvas</button><button class="secondary" id="finish">จบรูป / วางรูป (Enter)</button><button class="secondary" id="dupShape">ทำสำเนารูปที่เลือก (Ctrl+D)</button><button class="ghost" id="delShape">ลบรูปที่เลือก (Del)</button><button class="secondary" id="flipH">พลิกแนวนอน ⇆ (Shift+H)</button><button class="secondary" id="flipV">พลิกแนวตั้ง ⇅ (Shift+V)</button><button class="secondary" id="groupBtn">จัดกลุ่ม (Ctrl+G)</button><button class="ghost" id="ungroupBtn">แยกกลุ่ม (Ctrl+Shift+G)</button><button class="secondary" id="undo">ย้อนกลับ (Ctrl+Z)</button><button class="ghost" id="clear">ล้าง Layer นี้</button></div><p class="hint"><b>เลือกหลายรูป:</b> ลากกรอบบนพื้นที่ว่างด้วยเครื่องมือ “เลือก”, กด Shift/Ctrl + คลิกเพื่อเพิ่ม/เอาออก หรือ Ctrl+A เลือกทั้งหมด จากนั้นขยับ ย่อ/ขยาย หมุน พลิก คัดลอก (Ctrl+C / Ctrl+V / Ctrl+D) ลบ (Del) หรือจัดกลุ่ม (Ctrl+G) ได้พร้อมกัน เมื่อจัดกลุ่มแล้วคลิกรูปใดรูปหนึ่งจะเลือกทั้งกลุ่ม</p><h2 style="margin-top:22px">บันทึก / โหลด</h2><div class="actions"><button class="primary" id="saveProject">บันทึกโปรเจกต์</button><button class="secondary" id="loadProjectBtn">โหลดโปรเจกต์</button><input id="loadProject" type="file" accept=".json,application/json" hidden></div><p class="hint">บันทึกเป็นไฟล์ JSON เพื่อเก็บทุก Layer รูปทรง และการตั้งค่าไว้เปิดต่อภายหลัง</p>
+        <h2 style="margin-top:22px">รูป Reference (ไว้เทียบ)</h2>
+        <div class="actions"><button class="primary" id="refPick">เลือกรูป Reference</button><button class="ghost" id="refRemove">ลบรูป</button><input id="refFile" type="file" accept="image/*" hidden></div>
+        <label class="field"><span>ความโปร่งใส <b id="refOpacityVal">50%</b></span><input id="refOpacity" type="range" min="5" max="100" value="50"></label>
+        <label class="field"><span>ขนาด <b id="refScaleVal">100%</b></span><input id="refScale" type="range" min="2" max="400" value="100"></label>
+        <div class="actions"><button class="secondary" id="refFit">พอดี Canvas</button><button class="secondary" id="refFlipH">พลิกแนวนอน ⇆</button><button class="secondary" id="refFlipV">พลิกแนวตั้ง ⇅</button></div>
+        <label class="check"><input id="refVisible" type="checkbox" checked> แสดงรูป Reference</label>
+        <label class="check"><input id="refOnTop" type="checkbox"> วางทับรูปทรง</label>
+        <p class="hint">เลือกไฟล์ วางรูปด้วย Ctrl+V หรือลากไฟล์มาวางบน Canvas ได้ จากนั้นเลือกเครื่องมือ “ย้ายรูป Reference” แล้วลากเพื่อเลื่อนตำแหน่ง รูป Reference ใช้เทียบเท่านั้น ไม่ถูกนับในโค้ดที่ส่งออก</p>
         <h2 style="margin-top:22px">Layers</h2>
         <div class="actions"><button class="primary" id="addLayer">＋ เพิ่ม Layer</button><button class="secondary" id="dupLayer">ทำสำเนา Layer</button><button class="secondary" id="renameLayer">เปลี่ยนชื่อ</button><button class="ghost" id="deleteLayer">ลบ Layer</button></div>
         <div id="layers" class="layer-list"></div>
@@ -120,6 +128,8 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
   let dragging = false;
   let zoom = 1;
   let selected = null; // {layerId, shape}
+  let multi = [];      // extra shapes when several are selected
+  let marquee = null, ref = null, refDrag = null;
   let editDrag = null;
   let penDrag = null;
   const canvasWrap = document.querySelector('.canvas-wrap');
@@ -181,6 +191,7 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
   }
   function drawGrid(s) {
     ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, canvas.width, canvas.height);
+    if (ref && ref.visible && !ref.onTop) drawRef();
     ctx.strokeStyle = '#3aa879'; ctx.lineWidth = 1.3;
     for (let x = 0; x <= s.width; x += s.grid) { ctx.beginPath(); ctx.moveTo(x + .5, 0); ctx.lineTo(x + .5, s.height); ctx.stroke(); }
     for (let y = 0; y <= s.height; y += s.grid) { ctx.beginPath(); ctx.moveTo(0, y + .5); ctx.lineTo(s.width, y + .5); ctx.stroke(); }
@@ -222,7 +233,11 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
     const s = getSettings();
     ctx.clearRect(0,0,canvas.width,canvas.height); drawGrid(s);
     layers.filter(l => l.visible).slice().reverse().forEach(layer => { layer.shapes.forEach(shape => drawShape(shape)); if (layer.draft.length) drawShape({type: layer.draftType || (layer.id === activeLayerId ? $('shape').value : 'polygon'), points: layer.draft, ...(layer.draftStyle || styleNow())}, layer.id === activeLayerId); });
-    if(selected && layers.some(l=>l.id===selected.layerId && l.visible && l.shapes.includes(selected.shape))) drawSelection(selected.shape);
+    if(ref&&ref.visible&&ref.onTop)drawRef();
+    {const its=selItems().filter(i=>layers.some(l=>l.id===i.layerId&&l.visible));
+     if(its.length>1)drawMultiSelection(its);else if(its.length===1)drawSelection(its[0].shape);}
+    if(ref&&ref.visible&&$('shape').value==='ref'){ctx.save();ctx.strokeStyle='#e8590c';ctx.lineWidth=2;ctx.setLineDash([6,4]);ctx.strokeRect(ref.x,ref.y,ref.nw*ref.scale,ref.nh*ref.scale);ctx.restore();}
+    if(marquee){ctx.save();ctx.strokeStyle='#087fef';ctx.fillStyle='rgba(8,127,239,.12)';ctx.lineWidth=1.5;ctx.setLineDash([5,4]);const mx=Math.min(marquee.start.x,marquee.now.x),my=Math.min(marquee.start.y,marquee.now.y),mw=Math.abs(marquee.now.x-marquee.start.x),mh=Math.abs(marquee.now.y-marquee.start.y);ctx.fillRect(mx,my,mw,mh);ctx.strokeRect(mx,my,mw,mh);ctx.restore();}
     if(['anchor','convert'].includes($('shape').value)) layers.filter(l=>l.visible).forEach(l=>l.shapes.forEach(drawAnchors));
     if (dragging && dragStart && dragNow) drawShape({type:$('shape').value === 'triangle' ? 'polygon' : $('shape').value, points: previewPoints(dragStart,dragNow), ...styleNow()});
     updatePoints();
@@ -236,51 +251,159 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
     layer.shapes.push({type, points:pts, ...(layer.draftStyle || styleNow())}); selected={layerId:layer.id,shape:layer.shapes[layer.shapes.length-1]}; layer.draft = []; delete layer.draftType; delete layer.draftStyle; draw(); $('status').textContent = 'วางรูปลง Layer แล้ว';
   }
   const COPY_OFFSET=20;
-  function cloneShape(sh,dx,dy){
-    const c=JSON.parse(JSON.stringify(sh));
-    const mv=q=>{if(!q)return;q.x+=dx;q.y+=dy;};
-    (c.points||[]).forEach(q=>{mv(q);mv(q.in);mv(q.out);});
-    return c;
+  const newGroupId=()=>'g'+Date.now().toString(36)+Math.random().toString(36).slice(2,7);
+  const layerOfShape=sh=>layers.find(l=>l.shapes.includes(sh))||null;
+  function selItems(){
+    if(!selected||!selected.shape)return [];
+    let base=(multi.length>1&&multi.includes(selected.shape))?multi.slice():[selected.shape];
+    base=base.filter(sh=>layerOfShape(sh));
+    if(!base.length)return [];
+    const groups=new Set(base.map(sh=>sh.group).filter(Boolean)),out=[];
+    for(const l of layers)for(const sh of l.shapes)if(base.includes(sh)||(l.visible&&sh.group&&groups.has(sh.group)))out.push({layerId:l.id,shape:sh});
+    return out;
   }
+  function setSelection(shapes,primary){
+    shapes=shapes.filter(sh=>layerOfShape(sh));
+    if(!shapes.length){selected=null;multi=[];return;}
+    const p=(primary&&shapes.includes(primary))?primary:shapes[shapes.length-1];
+    multi=shapes.length>1?shapes.slice():[];
+    selected={layerId:layerOfShape(p).id,shape:p}; activeLayerId=selected.layerId;
+  }
+  function cloneMany(list,dx,dy){
+    const map={};
+    return list.map(sh=>{
+      const c=JSON.parse(JSON.stringify(sh));
+      const mv=q=>{if(!q)return;q.x+=dx;q.y+=dy;};
+      (c.points||[]).forEach(q=>{mv(q);mv(q.in);mv(q.out);});
+      if(c.group){map[c.group]=map[c.group]||newGroupId();c.group=map[c.group];}
+      return c;
+    });
+  }
+  const NEED_SEL='ยังไม่ได้เลือกรูป — ใช้เครื่องมือ “เลือก” คลิกรูป หรือลากกรอบเลือกก่อน';
   function duplicateShape(){
-    if(!selected||!selected.shape){$('status').textContent='ยังไม่ได้เลือกรูป — ใช้เครื่องมือ “เลือก” คลิกรูปก่อน';return;}
-    const layer=layers.find(l=>l.id===selected.layerId&&l.shapes.includes(selected.shape));
-    if(!layer){$('status').textContent='ไม่พบรูปที่เลือก';return;}
+    const items=selItems();
+    if(!items.length){$('status').textContent=NEED_SEL;return;}
     snapshot();
-    const copy=cloneShape(selected.shape,COPY_OFFSET,COPY_OFFSET);
-    layer.shapes.push(copy);
-    selected={layerId:layer.id,shape:copy}; activeLayerId=layer.id;
-    codeDirty=false; draw(); $('status').textContent='ทำสำเนารูปแล้ว (เลื่อนไป +20,+20 พร้อมเลือกอัตโนมัติ)';
+    const clones=cloneMany(items.map(i=>i.shape),COPY_OFFSET,COPY_OFFSET);
+    items.forEach((it,k)=>layerOfShape(it.shape).shapes.push(clones[k]));
+    setSelection(clones,clones[clones.length-1]);
+    codeDirty=false; draw(); $('status').textContent=`ทำสำเนา ${clones.length} รูปแล้ว (เลื่อน +20,+20 และเลือกสำเนาให้อัตโนมัติ)`;
   }
   function deleteSelected(){
-    if(!selected||!selected.shape){$('status').textContent='ยังไม่ได้เลือกรูป — ใช้เครื่องมือ “เลือก” คลิกรูปก่อน';return;}
-    const layer=layers.find(l=>l.id===selected.layerId&&l.shapes.includes(selected.shape));
-    if(!layer){selected=null;draw();return;}
+    const items=selItems();
+    if(!items.length){$('status').textContent=NEED_SEL;return;}
     snapshot();
-    layer.shapes=layer.shapes.filter(sh=>sh!==selected.shape);
-    selected=null; codeDirty=false; draw(); $('status').textContent='ลบรูปแล้ว (Ctrl+Z เพื่อย้อนกลับ)';
+    const dead=new Set(items.map(i=>i.shape));
+    layers.forEach(l=>{l.shapes=l.shapes.filter(sh=>!dead.has(sh));});
+    selected=null; multi=[]; codeDirty=false; draw(); $('status').textContent=`ลบ ${dead.size} รูปแล้ว (Ctrl+Z เพื่อย้อนกลับ)`;
   }
   let shapeClipboard=null,pasteCount=0;
   function copySelected(){
-    if(!selected||!selected.shape)return false;
-    shapeClipboard=JSON.parse(JSON.stringify(selected.shape));pasteCount=0;
-    $('status').textContent='คัดลอกรูปแล้ว — กด Ctrl+V เพื่อวางใน Layer ที่เลือก';return true;
+    const items=selItems(); if(!items.length)return false;
+    shapeClipboard=items.map(i=>JSON.parse(JSON.stringify(i.shape)));pasteCount=0;
+    $('status').textContent=`คัดลอก ${items.length} รูปแล้ว — กด Ctrl+V เพื่อวางใน Layer ที่เลือก`;return true;
   }
   function pasteShape(){
-    if(!shapeClipboard){$('status').textContent='ยังไม่มีรูปที่คัดลอกไว้ (เลือกรูปแล้วกด Ctrl+C)';return;}
+    if(!shapeClipboard||!shapeClipboard.length){$('status').textContent='ยังไม่มีรูปที่คัดลอกไว้ (เลือกรูปแล้วกด Ctrl+C)';return;}
     const layer=activeLayer(); if(!layer)return;
     snapshot(); pasteCount++;
-    const copy=cloneShape(shapeClipboard,COPY_OFFSET*pasteCount,COPY_OFFSET*pasteCount);
-    layer.shapes.push(copy); selected={layerId:layer.id,shape:copy};
-    codeDirty=false; draw(); $('status').textContent='วางรูปลง Layer แล้ว';
+    const clones=cloneMany(shapeClipboard,COPY_OFFSET*pasteCount,COPY_OFFSET*pasteCount);
+    clones.forEach(c=>layer.shapes.push(c)); setSelection(clones,clones[clones.length-1]);
+    codeDirty=false; draw(); $('status').textContent=`วาง ${clones.length} รูปลง Layer แล้ว`;
   }
   function duplicateLayer(id){
     const i=layers.findIndex(l=>l.id===id); if(i<0)return;
     const src=layers[i]; snapshot();
     const newId=nextLayerId++;
-    const copy={id:newId,name:`${src.name} copy`,visible:true,shapes:src.shapes.map(sh=>cloneShape(sh,COPY_OFFSET,COPY_OFFSET)),draft:[]};
-    layers.splice(i,0,copy); activeLayerId=newId; selected=null;
+    const copy={id:newId,name:`${src.name} copy`,visible:true,shapes:cloneMany(src.shapes,COPY_OFFSET,COPY_OFFSET),draft:[]};
+    layers.splice(i,0,copy); activeLayerId=newId; selected=null; multi=[];
     codeDirty=false; draw(); $('status').textContent=`ทำสำเนา Layer แล้ว (${copy.shapes.length} รูป เลื่อน +20,+20)`;
+  }
+  function groupSelected(){
+    const items=selItems();
+    if(items.length<2){$('status').textContent='เลือกอย่างน้อย 2 รูปก่อนจัดกลุ่ม';return;}
+    snapshot(); const id=newGroupId(); items.forEach(i=>{i.shape.group=id;});
+    setSelection(items.map(i=>i.shape),selected&&selected.shape);
+    draw(); $('status').textContent=`จัดกลุ่ม ${items.length} รูปแล้ว — คลิกรูปใดก็ได้ในกลุ่มเพื่อเลือกทั้งกลุ่ม`;
+  }
+  function ungroupSelected(){
+    const items=selItems();
+    if(!items.some(i=>i.shape.group)){$('status').textContent='รูปที่เลือกยังไม่ได้อยู่ในกลุ่ม';return;}
+    snapshot(); items.forEach(i=>{delete i.shape.group;});
+    setSelection(items.map(i=>i.shape),selected&&selected.shape);
+    draw(); $('status').textContent='แยกกลุ่มแล้ว';
+  }
+  function flipSelected(axis){
+    const items=selItems();
+    if(!items.length){$('status').textContent=NEED_SEL;return;}
+    const pts=items.flatMap(i=>i.shape.points||[]); if(!pts.length)return;
+    snapshot();
+    const xs=pts.map(q=>q.x),ys=pts.map(q=>q.y);
+    const cx=(Math.min(...xs)+Math.max(...xs))/2,cy=(Math.min(...ys)+Math.max(...ys))/2;
+    const f=q=>{if(!q)return;if(axis==='h')q.x=2*cx-q.x;else q.y=2*cy-q.y;};
+    items.forEach(i=>(i.shape.points||[]).forEach(q=>{f(q);f(q.in);f(q.out);}));
+    codeDirty=false; draw(); $('status').textContent=axis==='h'?'พลิกแนวนอนแล้ว':'พลิกแนวตั้งแล้ว';
+  }
+  function drawMultiSelection(items){
+    ctx.save();ctx.strokeStyle='#8bb8f0';ctx.lineWidth=1.5;ctx.setLineDash([3,3]);
+    items.forEach(i=>{const b=bounds(i.shape);if(b)ctx.strokeRect(b.x-2,b.y-2,b.w+4,b.h+4);});
+    ctx.restore();
+    drawSelection({points:items.flatMap(i=>i.shape.points||[])});
+  }
+  // ----- Reference image -----
+  function drawRef(){
+    if(!ref)return;
+    ctx.save();ctx.globalAlpha=ref.opacity;
+    const w=ref.nw*ref.scale,h=ref.nh*ref.scale;
+    ctx.translate(ref.x+w/2,ref.y+h/2);ctx.scale(ref.flipX?-1:1,ref.flipY?-1:1);
+    ctx.drawImage(ref.img,-w/2,-h/2,w,h);ctx.restore();
+  }
+  function syncRefUI(){
+    const on=!!ref;
+    ['refRemove','refOpacity','refScale','refFit','refFlipH','refFlipV','refVisible','refOnTop'].forEach(id=>{$(id).disabled=!on;});
+    if(!on)return;
+    $('refOpacity').value=Math.round(ref.opacity*100);$('refOpacityVal').textContent=Math.round(ref.opacity*100)+'%';
+    $('refScale').value=Math.round(ref.scale*100);$('refScaleVal').textContent=Math.round(ref.scale*100)+'%';
+    $('refVisible').checked=ref.visible;$('refOnTop').checked=ref.onTop;
+  }
+  function setRefFromSrc(src,saved){
+    const img=new Image();
+    img.onload=()=>{
+      const nw=img.naturalWidth||1,nh=img.naturalHeight||1,fit=Math.min(canvas.width/nw,canvas.height/nh);
+      ref=Object.assign({img,src,nw,nh,scale:fit,x:(canvas.width-nw*fit)/2,y:(canvas.height-nh*fit)/2,opacity:.5,visible:true,onTop:false,flipX:false,flipY:false},saved||{});
+      ref.img=img;ref.src=src;ref.nw=nw;ref.nh=nh;
+      syncRefUI();draw();$('status').textContent='นำรูป Reference เข้าแล้ว — เลือกเครื่องมือ “ย้ายรูป Reference” เพื่อเลื่อนตำแหน่ง';
+    };
+    img.onerror=()=>{$('status').textContent='เปิดรูปนี้ไม่ได้';};
+    img.src=src;
+  }
+  function loadRefFile(file){
+    if(!file||!/^image\//.test(file.type||'')){$('status').textContent='กรุณาเลือกไฟล์รูปภาพ';return;}
+    const fr=new FileReader();fr.onload=()=>setRefFromSrc(fr.result,null);fr.readAsDataURL(file);
+  }
+  function exportRef(){return ref?{src:ref.src,x:ref.x,y:ref.y,scale:ref.scale,opacity:ref.opacity,visible:ref.visible,onTop:ref.onTop,flipX:ref.flipX,flipY:ref.flipY}:null;}
+  function handleMulti(event){
+    const p=getPoint(event,false),d=editDrag,dx=p.x-d.start.x,dy=p.y-d.start.y;
+    const T=fn=>{d.items.forEach(it=>{it.shape.points=it.points.map(q=>{const r=clonePoint(q);const v=fn(q);r.x=v.x;r.y=v.y;for(const k of ['in','out'])if(q[k])r[k]=fn(q[k]);return r;});});};
+    const all=d.items.flatMap(it=>it.points);
+    if(d.mode==='moveMulti'){
+      const b=bounds({points:all});
+      const ddx=Math.max(-Math.max(b.x,0),Math.min(Math.max(0,canvas.width-(b.x+b.w)),dx));
+      const ddy=Math.max(-Math.max(b.y,0),Math.min(Math.max(0,canvas.height-(b.y+b.h)),dy));
+      T(q=>({x:q.x+ddx,y:q.y+ddy}));
+    }else if(d.mode==='rotateMulti'){
+      const c=d.center,ang=Math.atan2(p.y-c.y,p.x-c.x)-d.startAngle,cos=Math.cos(ang),sin=Math.sin(ang);
+      T(q=>({x:c.x+(q.x-c.x)*cos-(q.y-c.y)*sin,y:c.y+(q.x-c.x)*sin+(q.y-c.y)*cos}));
+    }else{
+      const a=d.anchor,sxDen=d.handle.x-a.x,syDen=d.handle.y-a.y;
+      const sx=Math.abs(sxDen)<1?1:(p.x-a.x)/sxDen,sy=Math.abs(syDen)<1?1:(p.y-a.y)/syDen;
+      T(q=>({x:a.x+(q.x-a.x)*sx,y:a.y+(q.y-a.y)*sy}));
+    }
+    draw();
+  }
+  function isTypingTarget(e){
+    const tag=e.target?.tagName?.toLowerCase(),type=(e.target?.type||'').toLowerCase();
+    return tag==='textarea'||tag==='select'||e.target?.isContentEditable||(tag==='input'&&!['color','checkbox','range','button','file'].includes(type));
   }
   function renderLayers() {
     const root = $('layers'); root.innerHTML = '';
@@ -350,8 +473,8 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
     $('status').textContent='กำลังดึงเส้นให้โค้ง — ลากเมาส์';
     return true;
   }
-  function exportProject(){return {app:'Coordinate Canvas',version:2,width:canvas.width,height:canvas.height,grid:$('grid').value,pointSize:$('pointSize').value,labels:$('labels').checked,layers,activeLayerId,nextLayerId};}
-  function loadProject(data){if(!data||!Array.isArray(data.layers))throw new Error('ไฟล์โปรเจกต์ไม่ถูกต้อง');snapshot();layers=data.layers;activeLayerId=data.activeLayerId||layers[0]?.id||1;nextLayerId=data.nextLayerId||Math.max(...layers.map(l=>l.id))+1;canvas.width=Number(data.width)||600;canvas.height=Number(data.height)||400;$('width').value=canvas.width;$('height').value=canvas.height;if(data.grid)$('grid').value=data.grid;if(data.pointSize)$('pointSize').value=data.pointSize;if(typeof data.labels==='boolean')$('labels').checked=data.labels;selected=null;draw();applyZoom();$('status').textContent='โหลดโปรเจกต์แล้ว';}
+  function exportProject(){return {app:'Coordinate Canvas',version:2,width:canvas.width,height:canvas.height,grid:$('grid').value,pointSize:$('pointSize').value,labels:$('labels').checked,layers,activeLayerId,nextLayerId,ref:exportRef()};}
+  function loadProject(data){if(!data||!Array.isArray(data.layers))throw new Error('ไฟล์โปรเจกต์ไม่ถูกต้อง');snapshot();layers=data.layers;activeLayerId=data.activeLayerId||layers[0]?.id||1;nextLayerId=data.nextLayerId||Math.max(...layers.map(l=>l.id))+1;canvas.width=Number(data.width)||600;canvas.height=Number(data.height)||400;$('width').value=canvas.width;$('height').value=canvas.height;if(data.grid)$('grid').value=data.grid;if(data.pointSize)$('pointSize').value=data.pointSize;if(typeof data.labels==='boolean')$('labels').checked=data.labels;selected=null;multi=[];ref=null;syncRefUI();if(data.ref&&data.ref.src)setRefFromSrc(data.ref.src,data.ref);draw();applyZoom();$('status').textContent='โหลดโปรเจกต์แล้ว';}
   function resizeCanvas() {
     const s = getSettings(); snapshot(); canvas.width = s.width; canvas.height = s.height; draw(); applyZoom(); $('status').textContent = `Canvas ${s.width} × ${s.height} px`;
   }
@@ -370,7 +493,7 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
     }
     if(event.button!==0)return;
     codeDirty=false;
-    const type=$('shape').value, p=getPoint(event, !['select','anchor','convert'].includes(type)), layer=activeLayer();
+    const type=$('shape').value, p=getPoint(event, !['select','anchor','convert','ref'].includes(type)), layer=activeLayer();
     const clickedExisting = !layer?.draft?.length && layers.some(l=>l.visible && l.shapes.some(sh=>hitShape(p.x,p.y,sh)));
     if(type==='anchor'){
       // Hit-test in screen pixels, so tolerance remains reliable at every zoom level.
@@ -395,6 +518,10 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
       } else $('status').textContent=(layer&&layer.draft.length)?'รูปยังวาดไม่เสร็จ — กด “จบรูป / วางรูป” ก่อน แล้วค่อยเพิ่ม Anchor Point':'คลิกใกล้เส้นขอบรูป เพื่อเพิ่ม Anchor Point (ระยะจับประมาณ 18 px)';
       return;
     }
+    if(type==='ref'){
+      if(!ref){$('status').textContent='ยังไม่มีรูป Reference — กด “เลือกรูป Reference” หรือวางรูปด้วย Ctrl+V';return;}
+      refDrag={sx:p.x,sy:p.y,ox:ref.x,oy:ref.y};canvas.setPointerCapture(event.pointerId);$('status').textContent='กำลังเลื่อนรูป Reference';return;
+    }
     if(type==='convert'){
       const rc=canvas.getBoundingClientRect(),tol=12*canvas.width/Math.max(1,rc.width);
       const cands=[];if(selected&&selected.shape)cands.push(selected);
@@ -406,8 +533,21 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
       return;
     }
     if(type==='select' || clickedExisting){
+      const items=selItems();
+      if(items.length>1){
+        const pseudo={points:items.flatMap(i=>i.shape.points||[])};
+        const rh=rotationHandle(pseudo);
+        if(rh&&Math.hypot(p.x-rh.x,p.y-rh.y)<=12){
+          snapshot(); items.forEach(i=>convertToPolygon(i.shape));
+          const bb=bounds({points:items.flatMap(i=>i.shape.points||[])}),center={x:bb.x+bb.w/2,y:bb.y+bb.h/2};
+          editDrag={mode:'rotateMulti',items:items.map(i=>({shape:i.shape,points:i.shape.points.map(clonePoint)})),start:p,center,startAngle:Math.atan2(p.y-center.y,p.x-center.x)};
+          canvas.setPointerCapture(event.pointerId);$('status').textContent='กำลังหมุนหลายรูป';return;
+        }
+        const hd=selectionHandles(pseudo).find(h=>Math.abs(p.x-h.x)<=9&&Math.abs(p.y-h.y)<=9);
+        if(hd){snapshot();editDrag={mode:'resizeMulti',items:items.map(i=>({shape:i.shape,points:i.shape.points.map(clonePoint)})),start:p,anchor:{x:hd.ax,y:hd.ay},handle:hd};canvas.setPointerCapture(event.pointerId);$('status').textContent='กำลังปรับขนาดหลายรูป';return;}
+      }
       // Resize only when grabbing one of the visible handles of the currently selected shape.
-      if(selected && selected.layerId===activeLayerId && selected.shape && layers.some(l=>l.id===selected.layerId&&l.visible&&l.shapes.includes(selected.shape))){
+      if(items.length===1 && selected && selected.layerId===activeLayerId && selected.shape && layers.some(l=>l.id===selected.layerId&&l.visible&&l.shapes.includes(selected.shape))){
         const rh=rotationHandle(selected.shape);
         if(rh&&Math.hypot(p.x-rh.x,p.y-rh.y)<=12){
           snapshot();
@@ -436,8 +576,30 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
       let found=null;
       for(let li=layers.length-1;li>=0&&!found;li--){const l=layers[li];if(!l.visible)continue;for(let i=l.shapes.length-1;i>=0;i--){if(hitShape(p.x,p.y,l.shapes[i])){found={layerId:l.id,shape:l.shapes[i]};break;}}}
       if(found){
-        selected=found;activeLayerId=found.layerId;syncStyleControls(found.shape);if(tryStartBend(found.shape,p,event.pointerId)){draw();return;}snapshot();editDrag={mode:'move',shape:found.shape,start:p,points:found.shape.points.map(clonePoint)};canvas.setPointerCapture(event.pointerId);$('status').textContent='เลือก Polygon/รูปแล้ว — ลากเพื่อขยับ หรือจับจุดสีน้ำเงินที่มุมเพื่อปรับขนาด';
-      }else{selected=null;$('status').textContent='ไม่พบรูปตรงตำแหน่งที่คลิก';}
+        const modKey=event.shiftKey||event.ctrlKey||event.metaKey;
+        const cur=selItems().map(i=>i.shape);
+        if(modKey){
+          const grp=found.shape.group?layers.flatMap(l=>l.shapes).filter(sh=>sh.group===found.shape.group):[found.shape];
+          const has=cur.includes(found.shape);
+          const next=has?cur.filter(sh=>!grp.includes(sh)):cur.concat(grp.filter(sh=>!cur.includes(sh)));
+          setSelection(next,has?null:found.shape);
+          $('status').textContent=`เลือกอยู่ ${selItems().length} รูป`;draw();return;
+        }
+        if(!cur.includes(found.shape))setSelection([found.shape],found.shape);
+        activeLayerId=found.layerId;syncStyleControls(found.shape);
+        const its=selItems();
+        if(its.length>1){
+          snapshot();editDrag={mode:'moveMulti',items:its.map(i=>({shape:i.shape,points:i.shape.points.map(clonePoint)})),start:p};
+          canvas.setPointerCapture(event.pointerId);$('status').textContent=`เลือก ${its.length} รูป — ลากเพื่อขยับ จับมุมเพื่อย่อ/ขยาย จับวงกลมด้านบนเพื่อหมุน`;draw();return;
+        }
+        selected={layerId:found.layerId,shape:found.shape};multi=[];
+        if(tryStartBend(found.shape,p,event.pointerId)){draw();return;}snapshot();editDrag={mode:'move',shape:found.shape,start:p,points:found.shape.points.map(clonePoint)};canvas.setPointerCapture(event.pointerId);$('status').textContent='เลือก Polygon/รูปแล้ว — ลากเพื่อขยับ หรือจับจุดสีน้ำเงินที่มุมเพื่อปรับขนาด';
+      }else{
+        const add=event.shiftKey||event.ctrlKey||event.metaKey;
+        marquee={start:p,now:p,add,base:selItems().map(i=>i.shape)};
+        if(!add){selected=null;multi=[];}
+        canvas.setPointerCapture(event.pointerId);$('status').textContent='ลากเพื่อเลือกหลายรูป';
+      }
       draw();return;
     }
     if(!layer || !layer.visible){$('status').textContent='เปิด Layer ที่เลือกก่อนวาด';return;}
@@ -454,6 +616,9 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
   });
   canvas.addEventListener('pointermove', event=>{
     if(panDrag){canvasWrap.scrollLeft=panDrag.left-(event.clientX-panDrag.x);canvasWrap.scrollTop=panDrag.top-(event.clientY-panDrag.y);return;}
+    if(marquee){marquee.now=getPoint(event,false);draw();return;}
+    if(refDrag&&ref){const p=getPoint(event,false);ref.x=refDrag.ox+p.x-refDrag.sx;ref.y=refDrag.oy+p.y-refDrag.sy;draw();return;}
+    if(editDrag&&['moveMulti','rotateMulti','resizeMulti'].includes(editDrag.mode)){handleMulti(event);return;}
     if(editDrag){
       const p=getPoint(event,false),sh=editDrag.shape,dx=p.x-editDrag.start.x,dy=p.y-editDrag.start.y;
       if(editDrag.mode==='move'){
@@ -494,8 +659,21 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
   });
   function stopPointerAction(){
     if(panDrag){panDrag=null;canvasWrap.classList.remove('panning');canvas.style.cursor=spaceDown?'grab':($('shape').value==='select'?'default':'crosshair');return;}
+    if(marquee){
+      const m=marquee;marquee=null;
+      const x1=Math.min(m.start.x,m.now.x),x2=Math.max(m.start.x,m.now.x),y1=Math.min(m.start.y,m.now.y),y2=Math.max(m.start.y,m.now.y);
+      if(x2-x1>3||y2-y1>3){
+        const hits=[];
+        layers.forEach(l=>{if(!l.visible)return;l.shapes.forEach(sh=>{const b=bounds(sh);if(b&&b.x<=x2&&b.x+b.w>=x1&&b.y<=y2&&b.y+b.h>=y1)hits.push(sh);});});
+        const all=(m.add?m.base:[]).concat(hits.filter(sh=>!(m.add&&m.base.includes(sh))));
+        setSelection(all,hits[hits.length-1]);
+        $('status').textContent=all.length?`เลือก ${selItems().length} รูป`:'ไม่พบรูปในกรอบ';
+      }else if(!m.add)$('status').textContent='ยกเลิกการเลือกแล้ว';
+      draw();return;
+    }
+    if(refDrag){refDrag=null;draw();$('status').textContent='เลื่อนรูป Reference แล้ว';return;}
     if(penDrag){penDrag=null;draw();return;}
-    if(editDrag){const mode=editDrag.mode;if(mode==='convert'&&!editDrag.moved){const t=editDrag.shape.points[editDrag.idx];delete t.in;delete t.out;delete t.smooth;}editDrag=null;codeDirty=false;draw();$('status').textContent=mode==='rotate'?'หมุนรูปแล้ว':mode==='resize'?'ปรับขนาดรูปแล้ว':mode==='anchor'?'ย้ายจุดยึดแล้ว':mode==='bend'?'ปรับความโค้งแล้ว':mode==='convert'?'ปรับจุดแล้ว':'ขยับรูปแล้ว';return;}
+    if(editDrag){const mode=editDrag.mode;if(mode==='convert'&&!editDrag.moved){const t=editDrag.shape.points[editDrag.idx];delete t.in;delete t.out;delete t.smooth;}editDrag=null;codeDirty=false;draw();$('status').textContent=(mode==='rotate'||mode==='rotateMulti')?'หมุนรูปแล้ว':(mode==='resize'||mode==='resizeMulti')?'ปรับขนาดรูปแล้ว':mode==='anchor'?'ย้ายจุดยึดแล้ว':mode==='bend'?'ปรับความโค้งแล้ว':mode==='convert'?'ปรับจุดแล้ว':'ขยับรูปแล้ว';return;}
     if(!dragging)return;
     dragNow=dragNow||dragStart;const type=$('shape').value;const layer=activeLayer();const pts=previewPoints(dragStart,dragNow);if(layer){layer.shapes.push({type:type==='triangle'?'polygon':type,points:pts,...styleNow()});selected={layerId:layer.id,shape:layer.shapes[layer.shapes.length-1]};}
     dragging=false;dragStart=null;dragNow=null;draw();$('status').textContent='วางรูปลง Layer แล้ว';
@@ -512,6 +690,29 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
   $('finish').addEventListener('click',finishDraft);
   $('dupShape').addEventListener('click',duplicateShape);
   $('delShape').addEventListener('click',deleteSelected);
+  $('flipH').addEventListener('click',()=>flipSelected('h'));
+  $('flipV').addEventListener('click',()=>flipSelected('v'));
+  $('groupBtn').addEventListener('click',groupSelected);
+  $('ungroupBtn').addEventListener('click',ungroupSelected);
+  $('refPick').addEventListener('click',()=>$('refFile').click());
+  $('refFile').addEventListener('change',e=>{loadRefFile(e.target.files[0]);e.target.value='';});
+  $('refOpacity').addEventListener('input',e=>{if(!ref)return;ref.opacity=Number(e.target.value)/100;$('refOpacityVal').textContent=e.target.value+'%';draw();});
+  $('refScale').addEventListener('input',e=>{if(!ref)return;const cx=ref.x+ref.nw*ref.scale/2,cy=ref.y+ref.nh*ref.scale/2;ref.scale=Math.max(.02,Number(e.target.value)/100);ref.x=cx-ref.nw*ref.scale/2;ref.y=cy-ref.nh*ref.scale/2;$('refScaleVal').textContent=e.target.value+'%';draw();});
+  $('refVisible').addEventListener('change',e=>{if(ref){ref.visible=e.target.checked;draw();}});
+  $('refOnTop').addEventListener('change',e=>{if(ref){ref.onTop=e.target.checked;draw();}});
+  $('refFit').addEventListener('click',()=>{if(!ref)return;ref.scale=Math.min(canvas.width/ref.nw,canvas.height/ref.nh);ref.x=(canvas.width-ref.nw*ref.scale)/2;ref.y=(canvas.height-ref.nh*ref.scale)/2;syncRefUI();draw();});
+  $('refFlipH').addEventListener('click',()=>{if(ref){ref.flipX=!ref.flipX;draw();}});
+  $('refFlipV').addEventListener('click',()=>{if(ref){ref.flipY=!ref.flipY;draw();}});
+  $('refRemove').addEventListener('click',()=>{ref=null;refDrag=null;syncRefUI();draw();$('status').textContent='ลบรูป Reference แล้ว';});
+  canvasWrap.addEventListener('dragover',e=>{if(e.dataTransfer&&[...(e.dataTransfer.types||[])].includes('Files'))e.preventDefault();});
+  canvasWrap.addEventListener('drop',e=>{const f=e.dataTransfer&&e.dataTransfer.files&&e.dataTransfer.files[0];if(f&&/^image\//.test(f.type||'')){e.preventDefault();loadRefFile(f);}});
+  document.addEventListener('paste',e=>{
+    if(isTypingTarget(e))return;
+    const img=[...(e.clipboardData?.items||[])].find(it=>(it.type||'').startsWith('image/'));
+    if(img){const f=img.getAsFile();if(f){e.preventDefault();loadRefFile(f);return;}}
+    if(shapeClipboard&&shapeClipboard.length){e.preventDefault();pasteShape();}
+  });
+  syncRefUI();
   $('dupLayer').addEventListener('click',()=>duplicateLayer(activeLayerId));
   $('undo').addEventListener('click', undo);
   $('clear').addEventListener('click', () => { const l=activeLayer();if(l){snapshot();l.shapes=[];l.draft=[];selected=null;}draw();$('status').textContent='ล้างรูปใน Layer นี้แล้ว'; });
@@ -523,9 +724,10 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
   function applyStyleToSelected(){
     const st=styleNow(), l=activeLayer();
     if(l&&l.draft.length){ l.draftStyle={...st}; codeDirty=false; draw(); $('status').textContent='เปลี่ยนสี/เส้นของรูปที่กำลังวาดแล้ว'; return; }
-    if(selected&&selected.shape&&layers.some(l2=>l2.id===selected.layerId&&l2.shapes.includes(selected.shape))){
+    const its=selItems();
+    if(its.length){
       if(!styleSnapped){snapshot();styleSnapped=true;}
-      selected.shape.fill=st.fill; selected.shape.outline=st.outline; selected.shape.width=st.width;
+      its.forEach(i=>{i.shape.fill=st.fill; i.shape.outline=st.outline; i.shape.width=st.width;});
       codeDirty=false; draw(); $('status').textContent='เปลี่ยนสี/เส้นของรูปที่เลือกแล้ว';
     } else { draw(); $('status').textContent='ยังไม่ได้เลือกรูป — ใช้เครื่องมือ “เลือก” คลิกรูปก่อน (สีนี้จะใช้กับรูปใหม่)'; }
   }
@@ -592,13 +794,18 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
   document.addEventListener('keydown',e=>{
     const tag=e.target?.tagName?.toLowerCase(),type=(e.target?.type||'').toLowerCase();
     const typing=tag==='textarea'||e.target?.isContentEditable||(tag==='input'&&!['color','checkbox','range','button','file'].includes(type));
-    if(typing||tag==='button')return;
+    if(typing)return;
+    if(tag==='button'&&(e.key==='Enter'||e.key===' '))return;
     const mod=e.ctrlKey||e.metaKey,k=e.key.toLowerCase();
     if(e.key==='Enter'&&!mod){const l=activeLayer();if(l&&l.draft.length){e.preventDefault();finishDraft();}}
     else if((e.key==='Delete'||e.key==='Backspace')&&!mod){if(selected&&selected.shape){e.preventDefault();deleteSelected();}}
     else if(mod&&k==='d'){e.preventDefault();duplicateShape();}
     else if(mod&&k==='c'){if(copySelected())e.preventDefault();}
-    else if(mod&&k==='v'){if(shapeClipboard){e.preventDefault();pasteShape();}}
+    else if(mod&&k==='g'){e.preventDefault();if(e.shiftKey)ungroupSelected();else groupSelected();}
+    else if(mod&&k==='a'){e.preventDefault();const all=[];layers.forEach(l=>{if(l.visible)l.shapes.forEach(sh=>all.push(sh));});setSelection(all);draw();$('status').textContent=all.length?`เลือกทั้งหมด ${all.length} รูป`:'ยังไม่มีรูปให้เลือก';}
+    else if(e.shiftKey&&!mod&&k==='h'){e.preventDefault();flipSelected('h');}
+    else if(e.shiftKey&&!mod&&k==='v'){e.preventDefault();flipSelected('v');}
+    else if(e.key==='Escape'){selected=null;multi=[];draw();}
   });
   // Start with an example-friendly empty layer; grid and coordinates remain independent of the artwork.
   draw();
