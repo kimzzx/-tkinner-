@@ -5,117 +5,228 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ruphikut</title>
 <style>
-:root {
-  --site-primary: #167c5a;
-  --site-on-primary: #ffffff;
-  --site-secondary: #e7f4ed;
-  --site-on-secondary: #173c2e;
-  --site-background: #f4f8f5;
-  --site-on-background: #17231d;
-  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --site-font-heading: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --site-heading-scale: 1;
-  --site-spacing-scale: 1;
-  --site-radius-scale: 1;
+:root{
+  --site-primary:#167c5a; --site-on-primary:#fff; --site-secondary:#e7f4ed; --site-on-secondary:#173c2e;
+  --site-background:#f4f8f5; --site-on-background:#17231d;
+  --line:#d8e5dc; --line2:#bdcfc3; --surface:#fff; --muted:#5c6b62;
+  --site-font-body:Inter,"Noto Sans Thai",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --site-heading-scale:1; --site-spacing-scale:1; --site-radius-scale:1;
 }
-* { box-sizing: border-box; }
-body { margin: 0; font-family: var(--site-font-body); background: var(--site-background); color: var(--site-on-background); }
-#app { min-height: 100vh; width: 100%; background-color: var(--site-background); color: var(--site-on-background); border-radius: 0; }
-header { background: var(--site-primary); color: var(--site-on-primary); padding: calc(24px * var(--site-spacing-scale)) calc(28px * var(--site-spacing-scale)); }
-header h1 { margin: 0 0 6px; font-family: var(--site-font-heading); font-size: calc(28px * var(--site-heading-scale)); }
-header p { margin: 0; opacity: .9; font-size: 14px; }
-main { max-width: 1440px; margin: auto; padding: calc(22px * var(--site-spacing-scale)); }
-.layout { display: grid; grid-template-columns: minmax(250px, 310px) minmax(0, 1fr); gap: 20px; align-items: start; }
-.panel { background: light-dark(#ffffff, #202923); color: light-dark(#17231d, #edf5ef); border: 1px solid light-dark(#d8e5dc, #3c4a40); border-radius: calc(14px * var(--site-radius-scale)); padding: 18px; }
-.panel h2 { margin: 0 0 14px; font-size: 16px; }
-.field { display: grid; grid-template-columns: 1fr 105px; align-items: center; gap: 10px; margin: 12px 0; font-size: 13px; }
-input[type=number], select { width: 100%; min-width: 0; border: 1px solid #bdcfc3; border-radius: 8px; padding: 9px 10px; background: light-dark(#fff, #151b17); color: light-dark(#17231d, #edf5ef); font: inherit; }
-input[type=checkbox] { accent-color: var(--site-primary); }
-.check { display: flex; align-items: center; gap: 9px; margin: 13px 0; font-size: 13px; }
-button { border: 0; border-radius: 9px; padding: 10px 12px; font: inherit; font-size: 13px; font-weight: 650; cursor: pointer; }
-button.primary { background: var(--site-primary); color: var(--site-on-primary); }
-button.secondary { background: var(--site-secondary); color: var(--site-on-secondary); }
-button.ghost { background: transparent; color: inherit; border: 1px solid #bdcfc3; }
-.actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
-.hint { font-size: 12px; line-height: 1.6; opacity: .78; margin: 12px 0 0; }
-.canvas-panel { min-width: 0; }
-.canvas-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
-.canvas-top h2 { margin: 0; font-size: 16px; }
-#status { font-size: 12px; color: #167c5a; }
-.canvas-wrap { overflow: auto; background: #fff; border: 1px solid #cad9cf; border-radius: 10px; padding: 10px; max-height: 72vh; }
-#drawing { display: block; max-width: none; cursor: crosshair; touch-action: none; }
-.canvas-wrap.panning { cursor: grabbing; user-select: none; }
-.canvas-wrap.panning #drawing { cursor: grabbing !important; }
-.coordinates { margin-top: 16px; }
-.coordinates-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
-.coordinates-head h2 { margin: 0; }
-#toolOptions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.color-field { display: flex; flex-direction: column; gap: 6px; font-size: 12px; }
-input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #bdcfc3; border-radius: 8px; background: transparent; }
-.layer-list { display: grid; gap: 7px; margin-top: 12px; }
-.layer-item { display: grid; grid-template-columns: 28px 1fr auto auto auto; align-items: center; gap: 7px; padding: 8px; border: 1px solid light-dark(#d8e5dc, #3c4a40); border-radius: 8px; font-size: 12px; }
-.layer-item.active { border-color: var(--site-primary); background: var(--site-secondary); color: var(--site-on-secondary); }
-.layer-item button { padding: 5px 7px; }
-.layer-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.small-note { font-size: 12px; opacity: .8; }
-#pointList { margin: 12px 0 0; padding-left: 25px; font: 13px ui-monospace, SFMono-Regular, Menlo, monospace; }
-#pointList li { padding: 3px 0; }
-#code { display: block; white-space: pre-wrap; overflow-wrap: anywhere; padding: 12px; margin-top: 12px; background: light-dark(#f1f5f2, #151b17); border: 1px solid light-dark(#d8e5dc, #3c4a40); border-radius: 8px; font: 12px/1.6 ui-monospace, SFMono-Regular, Menlo, monospace; }
-@media (max-width: 800px) { .layout { grid-template-columns: 1fr; } header { padding: 20px; } main { padding: 14px; } .canvas-wrap { max-height: 65vh; } }
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:var(--site-font-body);background:var(--site-background);color:var(--site-on-background);font-size:14px}
+#app{height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+
+/* top bar */
+.topbar{flex:none;display:flex;align-items:center;gap:14px;background:var(--site-primary);color:var(--site-on-primary);padding:8px 16px;min-height:48px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .logo{width:28px;height:28px;border-radius:8px;background:#fff;color:var(--site-primary);display:grid;place-items:center;font-weight:800;font-size:16px}
+.brand h1{margin:0;font-size:19px;letter-spacing:.2px}
+.topbar .tag{margin:0;font-size:12px;opacity:.85;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* workspace */
+.workspace{flex:1;min-height:0;display:grid;grid-template-columns:78px minmax(0,1fr) 340px;gap:0}
+
+/* left tool rail */
+.toolrail{background:var(--surface);border-right:1px solid var(--line);padding:8px 6px;display:flex;flex-direction:column;gap:4px;overflow-y:auto}
+.toolrail .grp{font-size:10px;color:var(--muted);text-align:center;margin:6px 0 2px;letter-spacing:.4px}
+.tool{display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 2px;border-radius:10px;background:transparent;color:var(--site-on-background);border:1px solid transparent;font-weight:600;font-size:11px;line-height:1.15;text-align:center}
+.tool .ic{font-size:20px;line-height:1;height:22px;display:grid;place-items:center}
+.tool:hover{background:var(--site-secondary)}
+.tool.active{background:var(--site-primary);color:var(--site-on-primary);border-color:var(--site-primary)}
+
+/* center stage */
+.stage{min-width:0;min-height:0;display:flex;flex-direction:column;padding:10px;gap:8px}
+.actionbar{flex:none;display:flex;flex-wrap:wrap;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:6px 8px}
+.actionbar .sep{width:1px;align-self:stretch;background:var(--line);margin:2px 2px}
+.actionbar button{padding:7px 9px;font-size:12.5px;white-space:nowrap}
+.actionbar .zoom{margin-left:auto;display:flex;align-items:center;gap:6px}
+#zoomValue{min-width:42px;text-align:center;font-size:12px}
+.canvas-wrap{flex:1;min-height:0;overflow:auto;background:#fff;border:1px solid var(--line2);border-radius:12px;padding:10px}
+#drawing{display:block;max-width:none;cursor:crosshair;touch-action:none}
+.canvas-wrap.panning{cursor:grabbing;user-select:none}
+.canvas-wrap.panning #drawing{cursor:grabbing !important}
+.statusbar{flex:none;font-size:12.5px;color:var(--site-primary);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 10px;min-height:30px;display:flex;align-items:center;gap:8px;overflow:hidden}
+#status{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* right side panel with tabs */
+.side{background:var(--surface);border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0;min-width:0}
+.tabs{flex:none;display:grid;grid-template-columns:repeat(6,1fr);border-bottom:1px solid var(--line);background:var(--site-secondary)}
+.tab{background:transparent;border-radius:0;padding:8px 2px 7px;font-size:11px;font-weight:650;color:var(--site-on-secondary);display:flex;flex-direction:column;align-items:center;gap:2px;border-bottom:3px solid transparent}
+.tab .ic{font-size:16px;line-height:1}
+.tab.active{background:var(--surface);border-bottom-color:var(--site-primary);color:var(--site-primary)}
+.panes{flex:1;min-height:0;overflow-y:auto;padding:14px}
+.pane{display:none}
+.pane.active{display:block}
+.pane h2{margin:0 0 10px;font-size:15px}
+.pane h2:not(:first-child){margin-top:20px}
+
+.field{display:grid;grid-template-columns:1fr 100px;align-items:center;gap:10px;margin:10px 0;font-size:13px}
+input[type=number],select{width:100%;min-width:0;border:1px solid var(--line2);border-radius:8px;padding:8px 10px;background:#fff;color:var(--site-on-background);font:inherit}
+input[type=range]{width:100%}
+input[type=checkbox]{accent-color:var(--site-primary)}
+.check{display:flex;align-items:center;gap:9px;margin:11px 0;font-size:13px}
+button{border:0;border-radius:9px;padding:9px 12px;font:inherit;font-size:13px;font-weight:650;cursor:pointer}
+button.primary{background:var(--site-primary);color:var(--site-on-primary)}
+button.secondary{background:var(--site-secondary);color:var(--site-on-secondary)}
+button.ghost{background:transparent;color:inherit;border:1px solid var(--line2)}
+button:hover{filter:brightness(.96)}
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.hint{font-size:12px;line-height:1.65;opacity:.8;margin:12px 0 0}
+#toolOptions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.color-field{display:flex;flex-direction:column;gap:6px;font-size:12px}
+input[type=color]{width:100%;height:38px;padding:3px;border:1px solid var(--line2);border-radius:8px;background:transparent}
+.fieldv{display:block;margin:12px 0;font-size:13px}
+.fieldv span{display:flex;justify-content:space-between;margin-bottom:4px}
+
+.layer-list{display:grid;gap:7px;margin-top:12px}
+.layer-item{display:grid;grid-template-columns:28px 1fr auto auto auto;align-items:center;gap:7px;padding:8px;border:1px solid var(--line);border-radius:8px;font-size:12px}
+.layer-item.active{border-color:var(--site-primary);background:var(--site-secondary);color:var(--site-on-secondary)}
+.layer-item button{padding:5px 7px}
+.layer-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.small-note{font-size:12px;opacity:.8}
+#pointList{margin:10px 0 0;padding-left:25px;font:13px ui-monospace,SFMono-Regular,Menlo,monospace;max-height:150px;overflow:auto}
+#pointList li{padding:3px 0}
+#codeEditor{display:block;width:100%;white-space:pre;overflow:auto;padding:12px;margin-top:12px;background:#f1f5f2;border:1px solid var(--line);border-radius:8px;font:12px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--site-on-background)}
+
+/* tablet / mobile: tools become a horizontal strip, side panel goes below */
+@media (max-width:980px){
+  #app{height:auto;min-height:100dvh;overflow:visible}
+  .workspace{display:flex;flex-direction:column}
+  .toolrail{flex-direction:row;overflow-x:auto;overflow-y:hidden;border-right:0;border-bottom:1px solid var(--line);padding:6px;position:sticky;top:0;z-index:5}
+  .toolrail .grp{display:none}
+  .tool{min-width:62px;flex:none}
+  .stage{padding:8px}
+  .canvas-wrap{flex:none;height:60vh}
+  .side{border-left:0;border-top:1px solid var(--line)}
+  .panes{overflow:visible}
+  .topbar .tag{display:none}
+}
 </style>
 </head>
 <body>
 <div id="app" data-sites-preview-theme="custom">
-  <header>
-    <h1>Ruphikut</h1>
-    <p>กำหนดขนาด Canvas แล้วคลิกเพื่อวางจุด ดูพิกัดและนำไปใช้กับ Tkinter ได้ทันที</p>
+  <header class="topbar">
+    <div class="brand"><div class="logo">R</div><h1>Ruphikut</h1></div>
+    <p class="tag">กำหนดขนาด Canvas แล้วคลิกเพื่อวางจุด ดูพิกัดและนำไปใช้กับ Tkinter ได้ทันที</p>
   </header>
-  <main>
-    <div class="layout">
-      <aside class="panel">
-        <h2>ตั้งค่า Canvas</h2>
-        <label class="field"><span>ความกว้าง (width)</span><input id="width" type="number" min="100" max="2400" step="50" value="600"></label>
-        <label class="field"><span>ความสูง (height)</span><input id="height" type="number" min="100" max="1600" step="50" value="400"></label>
-        <label class="field"><span>ระยะห่างเส้นกริด</span><input id="grid" type="number" min="10" max="200" step="10" value="50"></label>
-        <label class="field"><span>ขนาดจุด</span><input id="pointSize" type="number" min="2" max="12" value="4"></label>
-        <label class="field"><span>เครื่องมือ</span><select id="shape"><option value="select">เลือก / ขยับ / ปรับขนาด</option><option value="ref">ย้ายรูป Reference</option><option value="polygon">Pen / Polygon (คลิกลากเพื่อทำเส้นโค้ง)</option><option value="anchor">เพิ่มจุดยึด (Add Anchor Point)</option><option value="convert">แปลงจุด Convert Point (ลากจากจุด = ทำให้โค้ง / คลิก = มุมแหลม)</option><option value="line">เส้น</option><option value="rect">สี่เหลี่ยมผืนผ้า</option><option value="oval">วงรี / วงกลม</option><option value="triangle">สามเหลี่ยม</option><option value="point">จุด</option></select></label>
-        <div id="toolOptions"><label class="color-field">สี Fill<input id="fillColor" type="color" value="#f6c453"></label><label class="color-field">สี Outline<input id="outlineColor" type="color" value="#202820"></label></div>
-        <label class="field"><span>ความหนาเส้น</span><input id="lineWidth" type="number" min="1" max="20" value="3"></label>
-        <label class="field"><span>ความทึบของชิ้นงาน (Opacity) <b id="shapeOpacityVal">100%</b></span><input id="shapeOpacity" type="range" min="5" max="100" value="100"></label>
-        <label class="check"><input id="fillEnabled" type="checkbox" checked> เปิดใช้สี Fill</label>
-        <label class="check"><input id="outlineEnabled" type="checkbox" checked> เปิดใช้สี Outline</label>
-        <label class="check"><input id="snap" type="checkbox"> ล็อกจุดให้ตรงเส้นกริด</label>
-        <label class="check"><input id="labels" type="checkbox" checked> แสดงชื่อจุดและพิกัด</label>
-        <div class="actions"><button class="primary" id="apply">ปรับขนาด Canvas</button><button class="secondary" id="finish">จบรูป / วางรูป (Enter)</button><button class="secondary" id="dupShape">ทำสำเนารูปที่เลือก (Ctrl+D)</button><button class="ghost" id="delShape">ลบรูปที่เลือก (Del)</button><button class="secondary" id="flipH">พลิกแนวนอน ⇆ (Shift+H)</button><button class="secondary" id="flipV">พลิกแนวตั้ง ⇅ (Shift+V)</button><button class="secondary" id="groupBtn">จัดกลุ่ม (Ctrl+G)</button><button class="ghost" id="ungroupBtn">แยกกลุ่ม (Ctrl+Shift+G)</button><button class="secondary" id="undo">ย้อนกลับ (Ctrl+Z)</button><button class="ghost" id="clear">ล้าง Layer นี้</button></div><p class="hint"><b>เลือกหลายรูป:</b> ลากกรอบบนพื้นที่ว่างด้วยเครื่องมือ “เลือก”, กด Shift/Ctrl + คลิกเพื่อเพิ่ม/เอาออก หรือ Ctrl+A เลือกทั้งหมด จากนั้นขยับ ย่อ/ขยาย หมุน พลิก คัดลอก (Ctrl+C / Ctrl+V / Ctrl+D) ลบ (Del) หรือจัดกลุ่ม (Ctrl+G) ได้พร้อมกัน เมื่อจัดกลุ่มแล้วคลิกรูปใดรูปหนึ่งจะเลือกทั้งกลุ่ม</p><h2 style="margin-top:22px">บันทึก / โหลด</h2><div class="actions"><button class="primary" id="saveProject">บันทึกโปรเจกต์</button><button class="secondary" id="loadProjectBtn">โหลดโปรเจกต์</button><input id="loadProject" type="file" accept=".json,application/json" hidden></div><p class="hint">บันทึกเป็นไฟล์ JSON เพื่อเก็บทุก Layer รูปทรง และการตั้งค่าไว้เปิดต่อภายหลัง</p>
-        <h2 style="margin-top:22px">รูป Reference (ไว้เทียบ)</h2>
-        <div class="actions"><button class="primary" id="refPick">เลือกรูป Reference</button><button class="ghost" id="refRemove">ลบรูป</button><input id="refFile" type="file" accept="image/*" hidden></div>
-        <label class="field"><span>ความโปร่งใส <b id="refOpacityVal">50%</b></span><input id="refOpacity" type="range" min="5" max="100" value="50"></label>
-        <label class="field"><span>ขนาด <b id="refScaleVal">100%</b></span><input id="refScale" type="range" min="2" max="400" value="100"></label>
-        <div class="actions"><button class="secondary" id="refFit">พอดี Canvas</button><button class="secondary" id="refFlipH">พลิกแนวนอน ⇆</button><button class="secondary" id="refFlipV">พลิกแนวตั้ง ⇅</button></div>
-        <label class="check"><input id="refVisible" type="checkbox" checked> แสดงรูป Reference</label>
-        <label class="check"><input id="refOnTop" type="checkbox"> วางทับรูปทรง</label>
-        <p class="hint">เลือกไฟล์ วางรูปด้วย Ctrl+V หรือลากไฟล์มาวางบน Canvas ได้ จากนั้นเลือกเครื่องมือ “ย้ายรูป Reference” แล้วลากเพื่อเลื่อนตำแหน่ง รูป Reference ใช้เทียบเท่านั้น ไม่ถูกนับในโค้ดที่ส่งออก</p>
-        <h2 style="margin-top:22px">Layers</h2>
-        <div class="actions"><button class="primary" id="addLayer">＋ เพิ่ม Layer</button><button class="secondary" id="dupLayer">ทำสำเนา Layer</button><button class="secondary" id="renameLayer">เปลี่ยนชื่อ</button><button class="ghost" id="deleteLayer">ลบ Layer</button></div>
-        <div id="layers" class="layer-list"></div>
-        <p class="hint">คลิกเลือก Layer เพื่อวาดแยกชั้น เปิด/ปิดตาเพื่อซ่อนหรือแสดง และใช้ปุ่ม ↑ ↓ เปลี่ยนลำดับชั้น (ชั้นบนจะวาดทับชั้นล่าง)</p>
-        <p class="hint">พิกัดเริ่มจากมุมซ้ายบน (0, 0) แบบเดียวกับ Tkinter Canvas: x เพิ่มไปทางขวา และ y เพิ่มลงล่าง<br>เครื่องมือ Pen / Polygon: คลิกเพื่อสร้างมุม หรือคลิกค้างแล้วลากเพื่อสร้างเส้นโค้ง; ใช้ Add Anchor Point คลิกใกล้เส้นขอบ Polygon เพื่อเพิ่มจุดยึด และเปลี่ยนสีรูปที่เลือกได้จากช่องสี Fill/Outline<br><b>ทำให้เส้นโค้งแบบ Photoshop:</b> (1) โหมดเลือก — ลากที่ตัวเส้น (เส้นตรงหรือเส้นโค้งก็ได้) เพื่อดึงให้โค้ง (2) ลากที่ handle เพื่อปรับความโค้ง จุดที่เป็น smooth จะหมุน handle อีกข้างตามอัตโนมัติ (กด Alt ค้างเพื่อแยกอิสระ) (3) เครื่องมือ “แปลงจุด” — ลากจากจุดยึดเพื่อดึง handle ออกมา หรือคลิกที่จุดเพื่อเปลี่ยนกลับเป็นมุมแหลม</p>
-      </aside>
-      <section>
-        <div class="panel canvas-panel">
-          <div class="canvas-top"><h2>พื้นที่วาด</h2><div class="actions" style="margin:0"><button class="ghost" id="zoomOut">−</button><span id="zoomValue" style="align-self:center;font-size:12px">100%</span><button class="ghost" id="zoomIn">＋</button><button class="ghost" id="zoomReset">รีเซ็ตซูม</button></div><span id="status">เลือกเครื่องมือ แล้วคลิกหรือลากบน Canvas — หมุนรูปด้วยจุดกลมเหนือกรอบ</span></div>
-          <div class="canvas-wrap"><canvas id="drawing" width="600" height="400" aria-label="พื้นที่วาดพิกัด"></canvas></div>
+
+  <div class="workspace">
+    <!-- เครื่องมือวาด (อยู่ซ้ายตลอด ไม่ต้องเลื่อน) -->
+    <nav class="toolrail" aria-label="เครื่องมือ">
+      <button class="tool" data-tool="select" title="เลือก / ขยับ / ปรับขนาด / หมุน"><span class="ic">➤</span>เลือก</button>
+      <button class="tool" data-tool="ref" title="ย้ายรูป Reference"><span class="ic">🖼</span>ย้ายรูป</button>
+      <div class="grp">วาด</div>
+<button class="tool" data-tool="polygon" title="Pen / Polygon — คลิกวางมุม หรือคลิกลากเพื่อทำเส้นโค้ง"><span class="ic">✒</span>Pen</button>
+      <button class="tool" data-tool="line" title="เส้นตรง"><span class="ic">╱</span>เส้น</button>
+      <button class="tool" data-tool="rect" title="สี่เหลี่ยมผืนผ้า"><span class="ic">▭</span>สี่เหลี่ยม</button>
+      <button class="tool" data-tool="oval" title="วงรี / วงกลม"><span class="ic">◯</span>วงรี</button>
+      <button class="tool" data-tool="triangle" title="สามเหลี่ยม"><span class="ic">△</span>สามเหลี่ยม</button>
+      <button class="tool" data-tool="point" title="วางจุด"><span class="ic">●</span>จุด</button>
+      <div class="grp">แก้จุด</div>
+<button class="tool" data-tool="anchor" title="เพิ่มจุดยึด (Add Anchor Point) — คลิกใกล้เส้นขอบ"><span class="ic">✚</span>เพิ่มจุด</button>
+      <button class="tool" data-tool="convert" title="Convert Point — ลากจากจุด = โค้ง / คลิก = มุมแหลม"><span class="ic">⌃</span>แปลงจุด</button>
+      
+      <select id="shape" hidden>
+        <option value="select">เลือก / ขยับ / ปรับขนาด</option><option value="ref">ย้ายรูป Reference</option><option value="polygon">Pen / Polygon</option><option value="anchor">เพิ่มจุดยึด</option><option value="convert">แปลงจุด</option><option value="line">เส้น</option><option value="rect">สี่เหลี่ยมผืนผ้า</option><option value="oval">วงรี / วงกลม</option><option value="triangle">สามเหลี่ยม</option><option value="point">จุด</option>
+      </select>
+    </nav>
+
+    <section class="stage">
+      <div class="actionbar">
+        <button class="secondary" id="undo" title="Ctrl+Z">↶ ย้อนกลับ</button>
+        <button class="primary" id="finish" title="Enter">✔ จบรูป</button>
+        <span class="sep"></span>
+        <button class="secondary" id="dupShape" title="Ctrl+D">⧉ สำเนา</button>
+        <button class="ghost" id="delShape" title="Del">🗑 ลบ</button>
+        <span class="sep"></span>
+        <button class="secondary" id="flipH" title="Shift+H">⇆ พลิกนอน</button>
+        <button class="secondary" id="flipV" title="Shift+V">⇅ พลิกตั้ง</button>
+        <span class="sep"></span>
+        <button class="secondary" id="groupBtn" title="Ctrl+G">▣ จัดกลุ่ม</button>
+        <button class="ghost" id="ungroupBtn" title="Ctrl+Shift+G">▢ แยกกลุ่ม</button>
+        <button class="ghost" id="clear">ล้าง Layer</button>
+        <div class="zoom"><button class="ghost" id="zoomOut">−</button><span id="zoomValue">100%</span><button class="ghost" id="zoomIn">＋</button><button class="ghost" id="zoomReset">รีเซ็ต</button></div>
+      </div>
+      <div class="canvas-wrap"><canvas id="drawing" width="600" height="400" aria-label="พื้นที่วาดพิกัด"></canvas></div>
+      <div class="statusbar"><span id="status">เลือกเครื่องมือด้านซ้าย แล้วคลิกหรือลากบน Canvas — หมุนรูปด้วยจุดกลมเหนือกรอบ</span></div>
+    </section>
+
+    <!-- แผงตั้งค่าแบบแท็บ -->
+    <aside class="side">
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="canvas"><span class="ic">📐</span>Canvas</button>
+        <button class="tab" data-tab="style"><span class="ic">🎨</span>สี/เส้น</button>
+        <button class="tab" data-tab="layers"><span class="ic">🗂</span>Layer</button>
+        <button class="tab" data-tab="ref"><span class="ic">🖼</span>Reference</button>
+        <button class="tab" data-tab="code"><span class="ic">&lt;/&gt;</span>โค้ด</button>
+        <button class="tab" data-tab="file"><span class="ic">💾</span>ไฟล์</button>
+      </div>
+      <div class="panes">
+
+        <div class="pane active" data-pane="canvas">
+          <h2>ตั้งค่า Canvas</h2>
+          <label class="field"><span>ความกว้าง (width)</span><input id="width" type="number" min="100" max="2400" step="50" value="600"></label>
+          <label class="field"><span>ความสูง (height)</span><input id="height" type="number" min="100" max="1600" step="50" value="400"></label>
+          <label class="field"><span>ระยะห่างเส้นกริด</span><input id="grid" type="number" min="10" max="200" step="10" value="50"></label>
+          <label class="field"><span>ขนาดจุด</span><input id="pointSize" type="number" min="2" max="12" value="4"></label>
+          <label class="check"><input id="snap" type="checkbox"> ล็อกจุดให้ตรงเส้นกริด</label>
+          <label class="check"><input id="labels" type="checkbox" checked> แสดงชื่อจุดและพิกัด</label>
+          <div class="actions"><button class="primary" id="apply">ปรับขนาด Canvas</button></div>
+          <p class="hint">พิกัดเริ่มจากมุมซ้ายบน (0, 0) แบบเดียวกับ Tkinter Canvas: x เพิ่มไปทางขวา และ y เพิ่มลงล่าง</p>
         </div>
-        <div class="panel coordinates">
-          <div class="coordinates-head"><h2>พิกัดของรูปที่กำลังสร้าง <span id="count">(0)</span></h2></div>
+
+        <div class="pane" data-pane="style">
+          <h2>สีและเส้นของรูป</h2>
+          <div id="toolOptions"><label class="color-field">สี Fill<input id="fillColor" type="color" value="#f6c453"></label><label class="color-field">สี Outline<input id="outlineColor" type="color" value="#202820"></label></div>
+          <label class="check"><input id="fillEnabled" type="checkbox" checked> เปิดใช้สี Fill</label>
+          <label class="check"><input id="outlineEnabled" type="checkbox" checked> เปิดใช้สี Outline</label>
+          <label class="field"><span>ความหนาเส้น</span><input id="lineWidth" type="number" min="1" max="20" value="3"></label>
+          <label class="fieldv"><span>ความทึบ (Opacity) <b id="shapeOpacityVal">100%</b></span><input id="shapeOpacity" type="range" min="5" max="100" value="100"></label>
+          <p class="hint">เปลี่ยนค่าตรงนี้แล้วรูปที่เลือกอยู่จะเปลี่ยนตามทันที และรูปที่วาดใหม่จะใช้ค่านี้</p>
+          <h2>วิธีใช้งาน</h2>
+          <p class="hint" style="margin-top:0"><b>เลือกหลายรูป:</b> ลากกรอบบนพื้นที่ว่างด้วยเครื่องมือ “เลือก”, กด Shift/Ctrl + คลิกเพื่อเพิ่ม/เอาออก หรือ Ctrl+A เลือกทั้งหมด จากนั้นขยับ ย่อ/ขยาย หมุน พลิก คัดลอก (Ctrl+C / Ctrl+V / Ctrl+D) ลบ (Del) หรือจัดกลุ่ม (Ctrl+G) ได้พร้อมกัน</p>
+          <p class="hint"><b>Pen / Polygon:</b> คลิกเพื่อสร้างมุม หรือคลิกค้างแล้วลากเพื่อสร้างเส้นโค้ง แล้วกด Enter (จบรูป) เมื่อเสร็จ</p>
+          <p class="hint"><b>ทำเส้นโค้งแบบ Photoshop:</b> (1) โหมดเลือก — ลากที่ตัวเส้นเพื่อดึงให้โค้ง (2) ลากที่ handle เพื่อปรับความโค้ง (กด Alt ค้างเพื่อแยกอิสระ) (3) เครื่องมือ “แปลงจุด” — ลากจากจุดยึดเพื่อดึง handle หรือคลิกที่จุดเพื่อเปลี่ยนเป็นมุมแหลม</p>
+        </div>
+
+        <div class="pane" data-pane="layers">
+          <h2>Layers</h2>
+          <div class="actions" style="margin-top:0"><button class="primary" id="addLayer">＋ เพิ่ม</button><button class="secondary" id="dupLayer">ทำสำเนา</button><button class="secondary" id="renameLayer">เปลี่ยนชื่อ</button><button class="ghost" id="deleteLayer">ลบ</button></div>
+          <div id="layers" class="layer-list"></div>
+          <p class="hint">คลิกเลือก Layer เพื่อวาดแยกชั้น เปิด/ปิดตาเพื่อซ่อนหรือแสดง และใช้ปุ่ม ↑ ↓ เปลี่ยนลำดับชั้น (ชั้นบนจะวาดทับชั้นล่าง)</p>
+        </div>
+
+        <div class="pane" data-pane="ref">
+          <h2>รูป Reference (ไว้เทียบ)</h2>
+          <div class="actions" style="margin-top:0"><button class="primary" id="refPick">เลือกรูป</button><button class="ghost" id="refRemove">ลบรูป</button><input id="refFile" type="file" accept="image/*" hidden></div>
+          <label class="fieldv"><span>ความโปร่งใส <b id="refOpacityVal">50%</b></span><input id="refOpacity" type="range" min="5" max="100" value="50"></label>
+          <label class="fieldv"><span>ขนาด <b id="refScaleVal">100%</b></span><input id="refScale" type="range" min="2" max="400" value="100"></label>
+          <div class="actions"><button class="secondary" id="refFit">พอดี Canvas</button><button class="secondary" id="refFlipH">พลิกแนวนอน ⇆</button><button class="secondary" id="refFlipV">พลิกแนวตั้ง ⇅</button></div>
+          <label class="check"><input id="refVisible" type="checkbox" checked> แสดงรูป Reference</label>
+          <label class="check"><input id="refOnTop" type="checkbox"> วางทับรูปทรง</label>
+          <p class="hint">เลือกไฟล์ วางรูปด้วย Ctrl+V หรือลากไฟล์มาวางบน Canvas ได้ จากนั้นเลือกเครื่องมือ “ย้ายรูป” แล้วลากเพื่อเลื่อนตำแหน่ง รูป Reference ใช้เทียบเท่านั้น ไม่ถูกนับในโค้ดที่ส่งออก</p>
+        </div>
+
+        <div class="pane" data-pane="code">
+          <h2>พิกัดของรูปที่กำลังสร้าง <span id="count">(0)</span></h2>
           <ol id="pointList"><li>ยังไม่มีจุด — คลิกบน Canvas เพื่อเริ่ม</li></ol>
-          <textarea id="codeEditor" rows="8" spellcheck="false" style="display:block;width:100%;white-space:pre;overflow:auto;padding:12px;margin-top:12px;background:light-dark(#f1f5f2,#151b17);border:1px solid light-dark(#d8e5dc,#3c4a40);border-radius:8px;font:12px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace"># เลือกรูปเพื่อดูโค้ด หรือวาดรูปใหม่</textarea><div class="actions"><button class="secondary" id="applyCode">อัปเดตกราฟจากโค้ด</button><button class="ghost" id="copy">คัดลอกโค้ด</button></div>
-          <p class="hint">แก้โค้ดในช่องนี้แล้วกราฟจะอัปเดตอัตโนมัติเมื่อมีคำสั่งที่อ่านได้; รูปที่แก้จะถูกแทนที่ใน Layer ที่เลือก. การหมุนจะแปลงรูปสี่เหลี่ยม/วงรีเป็น Polygon เพื่อรักษามุมหมุน. พิกัดเป็นพิกัด Canvas และโค้ดที่คัดลอกจะรวมรูปทั้งหมดที่มองเห็น</p>
+          <textarea id="codeEditor" rows="12" spellcheck="false"># เลือกรูปเพื่อดูโค้ด หรือวาดรูปใหม่</textarea>
+          <div class="actions"><button class="secondary" id="applyCode">อัปเดตกราฟจากโค้ด</button><button class="primary" id="copy">คัดลอกโค้ด</button></div>
+          <p class="hint">แก้โค้ดในช่องนี้แล้วกราฟจะอัปเดตอัตโนมัติเมื่อมีคำสั่งที่อ่านได้; รูปที่แก้จะถูกแทนที่ใน Layer ที่เลือก. การหมุนจะแปลงรูปสี่เหลี่ยม/วงรีเป็น Polygon เพื่อรักษามุมหมุน. โค้ดที่คัดลอกจะรวมรูปทั้งหมดที่มองเห็น</p>
         </div>
-      </section>
-    </div>
-  </main>
+
+        <div class="pane" data-pane="file">
+          <h2>บันทึก / โหลด</h2>
+          <div class="actions" style="margin-top:0"><button class="primary" id="saveProject">บันทึกโปรเจกต์</button><button class="secondary" id="loadProjectBtn">โหลดโปรเจกต์</button><input id="loadProject" type="file" accept=".json,application/json" hidden></div>
+          <p class="hint">บันทึกเป็นไฟล์ JSON เพื่อเก็บทุก Layer รูปทรง และการตั้งค่าไว้เปิดต่อภายหลัง</p>
+        </div>
+
+      </div>
+    </aside>
+  </div>
 </div>
+
 <script>
 (() => {
   const canvas = document.getElementById('drawing');
@@ -268,7 +379,7 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
     if(!shapes.length){selected=null;multi=[];return;}
     const p=(primary&&shapes.includes(primary))?primary:shapes[shapes.length-1];
     multi=shapes.length>1?shapes.slice():[];
-    selected={layerId:layerOfShape(p).id,shape:p}; activeLayerId=selected.layerId;
+    selected={layerId:layerOfShape(p).id,shape:p}; activeLayerId=selected.layerId; syncStyleControls(p);
   }
   function cloneMany(list,dx,dy){
     const map={};
@@ -468,7 +579,35 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
   }
   function pointInPolygon(x,y,pts){let inside=false;for(let i=0,j=pts.length-1;i<pts.length;j=i++){const a=pts[i],b=pts[j];if(((a.y>y)!==(b.y>y))&&(x<(b.x-a.x)*(y-a.y)/(b.y-a.y)+a.x))inside=!inside;}return inside;}
   function nearSegment(x,y,a,b,pad){const dx=b.x-a.x,dy=b.y-a.y,len2=dx*dx+dy*dy;const t=len2?Math.max(0,Math.min(1,((x-a.x)*dx+(y-a.y)*dy)/len2)):0;return Math.hypot(x-(a.x+t*dx),y-(a.y+t*dy))<=pad;}
-  function hitShape(x,y,shape){const pts=shape.points||[],b=bounds(shape);if(!b||!pts.length)return false;const pad=Math.max(7,(shape.width||1)+4);if(shape.type==='point')return Math.hypot(x-pts[0].x,y-pts[0].y)<14;if(shape.type==='polygon'||shape.type==='triangle'){if(x>=b.x-pad&&x<=b.x+b.w+pad&&y>=b.y-pad&&y<=b.y+b.h+pad)return true;return false;}if(shape.type==='line'){const h=pts.length>=2?nearestSegment(x,y,pts,false):null;return !!h&&h.d<=pad;}return x>=b.x-pad&&x<=b.x+b.w+pad&&y>=b.y-pad&&y<=b.y+b.h+pad;}
+  function flatPath(pts,closed){
+    const out=[],n=pts.length,cnt=closed?n:n-1;
+    for(let i=0;i<cnt;i++){
+      const a=pts[i],b=pts[(i+1)%n];out.push({x:a.x,y:a.y});
+      if(a.out||b.in){const c1=a.out||a,c2=b.in||b;for(let k=1;k<12;k++){const t=k/12,u=1-t;out.push({x:u*u*u*a.x+3*u*u*t*c1.x+3*u*t*t*c2.x+t*t*t*b.x,y:u*u*u*a.y+3*u*u*t*c1.y+3*u*t*t*c2.y+t*t*t*b.y});}}
+    }
+    if(!closed&&n)out.push({x:pts[n-1].x,y:pts[n-1].y});
+    return out;
+  }
+  function hitShape(x,y,shape){
+    const pts=shape.points||[],b=bounds(shape);
+    if(!b||!pts.length)return false;
+    const pad=Math.max(7,(shape.width||1)+4);
+    if(shape.type==='point')return Math.hypot(x-pts[0].x,y-pts[0].y)<14;
+    if(x<b.x-pad||x>b.x+b.w+pad||y<b.y-pad||y>b.y+b.h+pad)return false;
+    if(shape.type==='polygon'||shape.type==='triangle'){
+      if(pts.length<2)return false;
+      if(shape.fill&&pts.length>=3&&pointInPolygon(x,y,flatPath(pts,true)))return true;
+      const h=nearestSegment(x,y,pts,pts.length>=3);return !!h&&h.d<=pad;
+    }
+    if(shape.type==='line'){const h=pts.length>=2?nearestSegment(x,y,pts,false):null;return !!h&&h.d<=pad;}
+    if(shape.type==='oval'){
+      const cx=b.x+b.w/2,cy=b.y+b.h/2,rx=b.w/2,ry=b.h/2,r=Math.hypot((x-cx)/rx,(y-cy)/ry);
+      if(shape.fill&&r<=1)return true;
+      return Math.abs(r-1)*Math.min(rx,ry)<=pad;
+    }
+    if(shape.fill)return true;
+    return !(x>b.x+pad&&x<b.x+b.w-pad&&y>b.y+pad&&y<b.y+b.h-pad);
+  }
   function tryStartBend(sh,p,pointerId){
     if(!['polygon','triangle','line'].includes(sh.type)||!sh.points||sh.points.length<2)return false;
     const rc=canvas.getBoundingClientRect(),k=rc.width/Math.max(1,canvas.width);
@@ -581,7 +720,7 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
         if(handle){snapshot();editDrag={mode:'resize',shape:selected.shape,start:p,points:selected.shape.points.map(clonePoint),anchor:{x:handle.ax,y:handle.ay}};canvas.setPointerCapture(event.pointerId);return;}
       }
       let found=null;
-      for(let li=layers.length-1;li>=0&&!found;li--){const l=layers[li];if(!l.visible)continue;for(let i=l.shapes.length-1;i>=0;i--){if(hitShape(p.x,p.y,l.shapes[i])){found={layerId:l.id,shape:l.shapes[i]};break;}}}
+      for(let li=0;li<layers.length&&!found;li++){const l=layers[li];if(!l.visible)continue;for(let i=l.shapes.length-1;i>=0;i--){if(hitShape(p.x,p.y,l.shapes[i])){found={layerId:l.id,shape:l.shapes[i]};break;}}}
       if(found){
         const modKey=event.shiftKey||event.ctrlKey||event.metaKey;
         const cur=selItems().map(i=>i.shape);
@@ -731,7 +870,9 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
   function applyStyleToSelected(ev){
     const st=styleNow(), l=activeLayer(), cid=ev&&ev.target&&ev.target.id;
     $('shapeOpacityVal').textContent=Math.round(st.opacity*100)+'%';
-    if(l&&l.draft.length){ l.draftStyle={...st}; codeDirty=false; draw(); $('status').textContent='เปลี่ยนสี/เส้นของรูปที่กำลังวาดแล้ว'; return; }
+    if(cid==='lineWidth'&&String($('lineWidth').value).trim()==='')return;
+    const its0=selItems();
+    if(l&&l.draft.length&&!(its0.length&&$('shape').value==='select')){ l.draftStyle={...st}; codeDirty=false; draw(); $('status').textContent='เปลี่ยนสี/เส้นของรูปที่กำลังวาดแล้ว'; return; }
     const its=selItems();
     if(its.length){
       if(!styleSnapped){snapshot();styleSnapped=true;}
@@ -740,10 +881,10 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
         if(all||cid==='outlineColor'||cid==='outlineEnabled')sh.outline=st.outline;
         if(all||cid==='lineWidth')sh.width=st.width;
         if(all||cid==='shapeOpacity')sh.opacity=st.opacity;});
-      codeDirty=false; draw(); $('status').textContent='เปลี่ยนสี/เส้นของรูปที่เลือกแล้ว';
+      codeDirty=false; draw(); $('status').textContent=(cid==='lineWidth'&&its.every(i=>!i.shape.outline&&i.shape.type!=='point'))?'ปรับความหนาแล้ว แต่รูปนี้ปิดสี Outline อยู่ จึงยังไม่เห็นเส้น — ติ๊ก “เปิดใช้สี Outline”':'เปลี่ยนสี/เส้นของรูปที่เลือกแล้ว';
     } else { draw(); $('status').textContent='ยังไม่ได้เลือกรูป — ใช้เครื่องมือ “เลือก” คลิกรูปก่อน (สีนี้จะใช้กับรูปใหม่)'; }
   }
-  styleControlIds.forEach(id=>{$(id).addEventListener('input',applyStyleToSelected);$(id).addEventListener('change',e=>{applyStyleToSelected(e);styleSnapped=false;});});
+  styleControlIds.forEach(id=>{$(id).addEventListener('input',applyStyleToSelected);$(id).addEventListener('change',e=>{if(e.target.type==='checkbox')applyStyleToSelected(e);styleSnapped=false;});});
   ['grid','pointSize','labels','shape'].forEach(id=>$(id).addEventListener('change',()=>{draw();canvas.style.cursor=$('shape').value==='select'?'default':(spaceDown?'grab':'crosshair');}));
   $('snap').addEventListener('change', () => { $('status').textContent = $('snap').checked ? 'เปิดล็อกจุดเข้ากริด' : 'ปิดล็อกจุด — วางได้อิสระ'; });
   $('copy').addEventListener('click', async () => {
@@ -821,6 +962,29 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
   });
   // Start with an example-friendly empty layer; grid and coordinates remain independent of the artwork.
   draw();
+})();
+</script>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  // ---- tool rail <-> hidden #shape select ----
+  const sel = $('shape');
+  const toolBtns = [...document.querySelectorAll('.tool')];
+  const syncTools = () => toolBtns.forEach(b => b.classList.toggle('active', b.dataset.tool === sel.value));
+  toolBtns.forEach(b => b.addEventListener('click', () => {
+    sel.value = b.dataset.tool;
+    sel.dispatchEvent(new Event('change', {bubbles:true}));
+    syncTools();
+  }));
+  sel.addEventListener('change', syncTools);
+  syncTools();
+  // ---- tabs ----
+  const tabs = [...document.querySelectorAll('.tab')], panes = [...document.querySelectorAll('.pane')];
+  const showTab = name => {
+    tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+    panes.forEach(p => p.classList.toggle('active', p.dataset.pane === name));
+  };
+  tabs.forEach(t => t.addEventListener('click', () => showTab(t.dataset.tab)));
 })();
 </script>
 </body>
