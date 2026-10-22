@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Coordinate Canvas</title>
+<title>RuPhikut</title>
 <style>
 :root {
   --site-primary: #167c5a;
@@ -67,7 +67,7 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
 <body>
 <div id="app" data-sites-preview-theme="custom">
   <header>
-    <h1>Ru Phikut</h1>
+    <h1>Ru phikut</h1>
     <p>กำหนดขนาด Canvas แล้วคลิกเพื่อวางจุด ดูพิกัดและนำไปใช้กับ Tkinter ได้ทันที</p>
   </header>
   <main>
@@ -261,11 +261,11 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
       let finalCoords = coords;
       if ((type==='rect'||type==='oval') && points.length>=2) finalCoords=[points[0].x,points[0].y,points[1].x,points[1].y];
       if (type==='triangle' && points.length>=3) finalCoords=points.flatMap(p=>[p.x,p.y]);
-      const st=styleNow(); const fill = type==='line' ? '' : st.fill;
-      code=`c.${method}(${finalCoords.join(', ')}, fill='${fill}', outline='${st.outline}', width=${st.width})`;
+      const st=styleNow();
+      code = type==='line' ? `c.${method}(${finalCoords.join(', ')}, fill='${st.outline}', width=${st.width})` : `c.${method}(${finalCoords.join(', ')}, fill='${st.fill}', outline='${st.outline}', width=${st.width})`;
     } else code = '# เลือกเครื่องมือแล้วคลิก/ลากเพื่อสร้างรูป';
     const allShapes = layers.filter(l=>l.visible).flatMap(l=>l.shapes);
-    if (allShapes.length) code += '\n\n# รูปที่วางไว้แล้ว (ทุก Layer ที่มองเห็น)\n' + allShapes.map(sh=>{let pts=sh.points;if(['polygon','triangle','line'].includes(sh.type)&&pts.some(p=>p.in||p.out)){const sampled=[];const open=sh.type==='line';for(let i=0;i<(open?pts.length-1:pts.length);i++){const a=pts[i],b=pts[(i+1)%pts.length];sampled.push({x:a.x,y:a.y});const curved=a.out||b.in;if(curved){const c1=a.out||a,c2=b.in||b;for(let k=1;k<16;k++){const t=k/16,u=1-t;sampled.push({x:u*u*u*a.x+3*u*u*t*c1.x+3*u*t*t*c2.x+t*t*t*b.x,y:u*u*u*a.y+3*u*u*t*c1.y+3*u*t*t*c2.y+t*t*t*b.y});}}}if(open)sampled.push({x:pts[pts.length-1].x,y:pts[pts.length-1].y});pts=sampled;}const c=pts.flatMap(p=>[Math.round(p.x),Math.round(p.y)]);const m=sh.type==='line'?'create_line':sh.type==='rect'?'create_rectangle':sh.type==='oval'?'create_oval':sh.type==='point'?'create_oval':'create_polygon';const f=sh.type==='line'?'':sh.fill;return `c.${m}(${c.join(', ')}, fill='${f}', outline='${sh.outline}', width=${sh.width})`;}).join('\n');
+    if (allShapes.length) code += '\n\n# รูปที่วางไว้แล้ว (ทุก Layer ที่มองเห็น)\n' + allShapes.map(sh=>{let pts=sh.points;if(['polygon','triangle','line'].includes(sh.type)&&pts.some(p=>p.in||p.out)){const sampled=[];const open=sh.type==='line';for(let i=0;i<(open?pts.length-1:pts.length);i++){const a=pts[i],b=pts[(i+1)%pts.length];sampled.push({x:a.x,y:a.y});const curved=a.out||b.in;if(curved){const c1=a.out||a,c2=b.in||b;for(let k=1;k<16;k++){const t=k/16,u=1-t;sampled.push({x:u*u*u*a.x+3*u*u*t*c1.x+3*u*t*t*c2.x+t*t*t*b.x,y:u*u*u*a.y+3*u*u*t*c1.y+3*u*t*t*c2.y+t*t*t*b.y});}}}if(open)sampled.push({x:pts[pts.length-1].x,y:pts[pts.length-1].y});pts=sampled;}let c=pts.flatMap(p=>[Math.round(p.x),Math.round(p.y)]);if(sh.type==='point'){const r=Math.max(3,(sh.width||3)+1),q=pts[0];c=[Math.round(q.x-r),Math.round(q.y-r),Math.round(q.x+r),Math.round(q.y+r)];}const m=sh.type==='line'?'create_line':sh.type==='rect'?'create_rectangle':sh.type==='oval'?'create_oval':sh.type==='point'?'create_oval':'create_polygon';if(sh.type==='line')return `c.${m}(${c.join(', ')}, fill='${sh.outline||''}', width=${sh.width})`;if(sh.type==='point')return `c.${m}(${c.join(', ')}, fill='${sh.fill||sh.outline||'#111111'}', outline='', width=1)`;return `c.${m}(${c.join(', ')}, fill='${sh.fill}', outline='${sh.outline}', width=${sh.width})`;}).join('\n');
     if (!codeDirty) $('codeEditor').value = code;
     applyZoom();
   }
@@ -522,7 +522,7 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
       let type=method==='create_line'?'line':method==='create_rectangle'?'rect':method==='create_oval'?'oval':'polygon';let pts=[];
       for(let i=0;i+1<nums.length;i+=2)pts.push({x:nums[i],y:nums[i+1]});
       if(type==='rect'||type==='oval'){if(pts.length>=2)pts=[pts[0],pts[1]];}
-      if(pts.length>=(type==='polygon'?3:2))shapes.push({type,points:pts,fill,outline,width});
+      if(pts.length>=(type==='polygon'?3:2))shapes.push(type==='line'?{type,points:pts,fill:'',outline:outline||fill,width}:{type,points:pts,fill,outline,width});
     }
     return shapes;
   }
