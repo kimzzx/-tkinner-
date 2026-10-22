@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RuPhikut</title>
+<title>Ruphikut</title>
 <style>
 :root {
   --site-primary: #167c5a;
@@ -53,7 +53,7 @@ button.ghost { background: transparent; color: inherit; border: 1px solid #bdcfc
 .color-field { display: flex; flex-direction: column; gap: 6px; font-size: 12px; }
 input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #bdcfc3; border-radius: 8px; background: transparent; }
 .layer-list { display: grid; gap: 7px; margin-top: 12px; }
-.layer-item { display: grid; grid-template-columns: 28px 1fr auto auto; align-items: center; gap: 7px; padding: 8px; border: 1px solid light-dark(#d8e5dc, #3c4a40); border-radius: 8px; font-size: 12px; }
+.layer-item { display: grid; grid-template-columns: 28px 1fr auto auto auto; align-items: center; gap: 7px; padding: 8px; border: 1px solid light-dark(#d8e5dc, #3c4a40); border-radius: 8px; font-size: 12px; }
 .layer-item.active { border-color: var(--site-primary); background: var(--site-secondary); color: var(--site-on-secondary); }
 .layer-item button { padding: 5px 7px; }
 .layer-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -67,7 +67,7 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
 <body>
 <div id="app" data-sites-preview-theme="custom">
   <header>
-    <h1>Ru phikut</h1>
+    <h1>Ru Phikut</h1>
     <p>กำหนดขนาด Canvas แล้วคลิกเพื่อวางจุด ดูพิกัดและนำไปใช้กับ Tkinter ได้ทันที</p>
   </header>
   <main>
@@ -85,9 +85,9 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
         <label class="check"><input id="outlineEnabled" type="checkbox" checked> เปิดใช้สี Outline</label>
         <label class="check"><input id="snap" type="checkbox"> ล็อกจุดให้ตรงเส้นกริด</label>
         <label class="check"><input id="labels" type="checkbox" checked> แสดงชื่อจุดและพิกัด</label>
-        <div class="actions"><button class="primary" id="apply">ปรับขนาด Canvas</button><button class="secondary" id="finish">จบรูป / วางรูป</button><button class="secondary" id="undo">ย้อนกลับ (Ctrl+Z)</button><button class="ghost" id="clear">ล้าง Layer นี้</button></div><h2 style="margin-top:22px">บันทึก / โหลด</h2><div class="actions"><button class="primary" id="saveProject">บันทึกโปรเจกต์</button><button class="secondary" id="loadProjectBtn">โหลดโปรเจกต์</button><input id="loadProject" type="file" accept=".json,application/json" hidden></div><p class="hint">บันทึกเป็นไฟล์ JSON เพื่อเก็บทุก Layer รูปทรง และการตั้งค่าไว้เปิดต่อภายหลัง</p>
+        <div class="actions"><button class="primary" id="apply">ปรับขนาด Canvas</button><button class="secondary" id="finish">จบรูป / วางรูป (Enter)</button><button class="secondary" id="dupShape">ทำสำเนารูปที่เลือก (Ctrl+D)</button><button class="secondary" id="undo">ย้อนกลับ (Ctrl+Z)</button><button class="ghost" id="clear">ล้าง Layer นี้</button></div><h2 style="margin-top:22px">บันทึก / โหลด</h2><div class="actions"><button class="primary" id="saveProject">บันทึกโปรเจกต์</button><button class="secondary" id="loadProjectBtn">โหลดโปรเจกต์</button><input id="loadProject" type="file" accept=".json,application/json" hidden></div><p class="hint">บันทึกเป็นไฟล์ JSON เพื่อเก็บทุก Layer รูปทรง และการตั้งค่าไว้เปิดต่อภายหลัง</p>
         <h2 style="margin-top:22px">Layers</h2>
-        <div class="actions"><button class="primary" id="addLayer">＋ เพิ่ม Layer</button><button class="secondary" id="renameLayer">เปลี่ยนชื่อ</button><button class="ghost" id="deleteLayer">ลบ Layer</button></div>
+        <div class="actions"><button class="primary" id="addLayer">＋ เพิ่ม Layer</button><button class="secondary" id="dupLayer">ทำสำเนา Layer</button><button class="secondary" id="renameLayer">เปลี่ยนชื่อ</button><button class="ghost" id="deleteLayer">ลบ Layer</button></div>
         <div id="layers" class="layer-list"></div>
         <p class="hint">คลิกเลือก Layer เพื่อวาดแยกชั้น เปิด/ปิดตาเพื่อซ่อนหรือแสดง และใช้ปุ่ม ↑ ↓ เปลี่ยนลำดับชั้น (ชั้นบนจะวาดทับชั้นล่าง)</p>
         <p class="hint">พิกัดเริ่มจากมุมซ้ายบน (0, 0) แบบเดียวกับ Tkinter Canvas: x เพิ่มไปทางขวา และ y เพิ่มลงล่าง<br>เครื่องมือ Pen / Polygon: คลิกเพื่อสร้างมุม หรือคลิกค้างแล้วลากเพื่อสร้างเส้นโค้ง; ใช้ Add Anchor Point คลิกใกล้เส้นขอบ Polygon เพื่อเพิ่มจุดยึด และเปลี่ยนสีรูปที่เลือกได้จากช่องสี Fill/Outline<br><b>ทำให้เส้นโค้งแบบ Photoshop:</b> (1) โหมดเลือก — ลากที่ตัวเส้น (เส้นตรงหรือเส้นโค้งก็ได้) เพื่อดึงให้โค้ง (2) ลากที่ handle เพื่อปรับความโค้ง จุดที่เป็น smooth จะหมุน handle อีกข้างตามอัตโนมัติ (กด Alt ค้างเพื่อแยกอิสระ) (3) เครื่องมือ “แปลงจุด” — ลากจากจุดยึดเพื่อดึง handle ออกมา หรือคลิกที่จุดเพื่อเปลี่ยนกลับเป็นมุมแหลม</p>
@@ -235,6 +235,45 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
     if ((type === 'polygon' || type === 'triangle') && pts.length < 3) { $('status').textContent = 'รูปหลายเหลี่ยมต้องมีอย่างน้อย 3 จุด'; return; }
     layer.shapes.push({type, points:pts, ...(layer.draftStyle || styleNow())}); selected={layerId:layer.id,shape:layer.shapes[layer.shapes.length-1]}; layer.draft = []; delete layer.draftType; delete layer.draftStyle; draw(); $('status').textContent = 'วางรูปลง Layer แล้ว';
   }
+  const COPY_OFFSET=20;
+  function cloneShape(sh,dx,dy){
+    const c=JSON.parse(JSON.stringify(sh));
+    const mv=q=>{if(!q)return;q.x+=dx;q.y+=dy;};
+    (c.points||[]).forEach(q=>{mv(q);mv(q.in);mv(q.out);});
+    return c;
+  }
+  function duplicateShape(){
+    if(!selected||!selected.shape){$('status').textContent='ยังไม่ได้เลือกรูป — ใช้เครื่องมือ “เลือก” คลิกรูปก่อน';return;}
+    const layer=layers.find(l=>l.id===selected.layerId&&l.shapes.includes(selected.shape));
+    if(!layer){$('status').textContent='ไม่พบรูปที่เลือก';return;}
+    snapshot();
+    const copy=cloneShape(selected.shape,COPY_OFFSET,COPY_OFFSET);
+    layer.shapes.push(copy);
+    selected={layerId:layer.id,shape:copy}; activeLayerId=layer.id;
+    codeDirty=false; draw(); $('status').textContent='ทำสำเนารูปแล้ว (เลื่อนไป +20,+20 พร้อมเลือกอัตโนมัติ)';
+  }
+  let shapeClipboard=null,pasteCount=0;
+  function copySelected(){
+    if(!selected||!selected.shape)return false;
+    shapeClipboard=JSON.parse(JSON.stringify(selected.shape));pasteCount=0;
+    $('status').textContent='คัดลอกรูปแล้ว — กด Ctrl+V เพื่อวางใน Layer ที่เลือก';return true;
+  }
+  function pasteShape(){
+    if(!shapeClipboard){$('status').textContent='ยังไม่มีรูปที่คัดลอกไว้ (เลือกรูปแล้วกด Ctrl+C)';return;}
+    const layer=activeLayer(); if(!layer)return;
+    snapshot(); pasteCount++;
+    const copy=cloneShape(shapeClipboard,COPY_OFFSET*pasteCount,COPY_OFFSET*pasteCount);
+    layer.shapes.push(copy); selected={layerId:layer.id,shape:copy};
+    codeDirty=false; draw(); $('status').textContent='วางรูปลง Layer แล้ว';
+  }
+  function duplicateLayer(id){
+    const i=layers.findIndex(l=>l.id===id); if(i<0)return;
+    const src=layers[i]; snapshot();
+    const newId=nextLayerId++;
+    const copy={id:newId,name:`${src.name} copy`,visible:true,shapes:src.shapes.map(sh=>cloneShape(sh,COPY_OFFSET,COPY_OFFSET)),draft:[]};
+    layers.splice(i,0,copy); activeLayerId=newId; selected=null;
+    codeDirty=false; draw(); $('status').textContent=`ทำสำเนา Layer แล้ว (${copy.shapes.length} รูป เลื่อน +20,+20)`;
+  }
   function renderLayers() {
     const root = $('layers'); root.innerHTML = '';
     layers.forEach((layer,index) => {
@@ -245,7 +284,8 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
       const order = document.createElement('span');
       const up=document.createElement('button'); up.className='ghost'; up.textContent='↑'; up.disabled=index===0; up.title='เลื่อนขึ้น'; up.onclick=()=>{if(index>0){[layers[index-1],layers[index]]=[layers[index],layers[index-1]];draw();}};
       const down=document.createElement('button'); down.className='ghost'; down.textContent='↓'; down.disabled=index===layers.length-1; down.title='เลื่อนลง'; down.onclick=()=>{if(index<layers.length-1){[layers[index+1],layers[index]]=[layers[index],layers[index+1]];draw();}};
-      order.append(up,down); row.append(choose,name,eye,order); root.appendChild(row);
+      const dup=document.createElement('button'); dup.className='ghost'; dup.textContent='⧉'; dup.title='ทำสำเนา Layer นี้'; dup.onclick=()=>duplicateLayer(layer.id);
+      order.append(up,down); row.append(choose,name,eye,dup,order); root.appendChild(row);
     });
   }
   function updatePoints() {
@@ -462,6 +502,8 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
   window.addEventListener('blur',()=>{spaceDown=false;if(panDrag){panDrag=null;canvasWrap.classList.remove('panning');}canvas.style.cursor=$('shape').value==='select'?'default':'crosshair';});
   $('apply').addEventListener('click', resizeCanvas);
   $('finish').addEventListener('click',finishDraft);
+  $('dupShape').addEventListener('click',duplicateShape);
+  $('dupLayer').addEventListener('click',()=>duplicateLayer(activeLayerId));
   $('undo').addEventListener('click', undo);
   $('clear').addEventListener('click', () => { const l=activeLayer();if(l){snapshot();l.shapes=[];l.draft=[];selected=null;}draw();$('status').textContent='ล้างรูปใน Layer นี้แล้ว'; });
   $('addLayer').addEventListener('click',()=>{snapshot();const id=nextLayerId++;layers.unshift({id,name:`Layer ${id}`,visible:true,shapes:[],draft:[]});activeLayerId=id;draw();$('status').textContent='เพิ่ม Layer ใหม่แล้ว';});
@@ -538,6 +580,16 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
   $('applyCode').addEventListener('click',()=>applyCodeToCanvas(false));
 
   document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){const tag=e.target?.tagName?.toLowerCase();if(tag==='textarea'||tag==='input'||e.target?.isContentEditable)return;e.preventDefault();undo();}});
+  document.addEventListener('keydown',e=>{
+    const tag=e.target?.tagName?.toLowerCase(),type=(e.target?.type||'').toLowerCase();
+    const typing=tag==='textarea'||e.target?.isContentEditable||(tag==='input'&&!['color','checkbox','range','button','file'].includes(type));
+    if(typing||tag==='button')return;
+    const mod=e.ctrlKey||e.metaKey,k=e.key.toLowerCase();
+    if(e.key==='Enter'&&!mod){const l=activeLayer();if(l&&l.draft.length){e.preventDefault();finishDraft();}}
+    else if(mod&&k==='d'){e.preventDefault();duplicateShape();}
+    else if(mod&&k==='c'){if(copySelected())e.preventDefault();}
+    else if(mod&&k==='v'){if(shapeClipboard){e.preventDefault();pasteShape();}}
+  });
   // Start with an example-friendly empty layer; grid and coordinates remain independent of the artwork.
   draw();
 })();
