@@ -640,7 +640,15 @@ input[type=color]{width:100%;height:38px;padding:3px;border:1px solid var(--line
     if(event.button!==0)return;
     codeDirty=false;
     const type=$('shape').value, p=getPoint(event, !['select','anchor','convert','ref'].includes(type)), layer=activeLayer();
-    const clickedExisting = !layer?.draft?.length && layers.some(l=>l.visible && l.shapes.some(sh=>hitShape(p.x,p.y,sh)));
+    const overSelectedHandle = () => {
+      const its = selItems();
+      if (its.length !== 1 || !selected || selected.layerId !== activeLayerId || !layers.some(l=>l.id===selected.layerId&&l.visible&&l.shapes.includes(selected.shape))) return false;
+      const sh = its[0].shape, rh = rotationHandle(sh);
+      if (rh && Math.hypot(p.x-rh.x,p.y-rh.y) <= 12) return true;
+      return selectionHandles(sh).some(h => Math.abs(p.x-h.x)<=9 && Math.abs(p.y-h.y)<=9);
+    };
+    // วาดรูปใหม่: คลิกทับรูปเดิมต้อง "วาด" ไม่ใช่ไปเลือกรูปเดิม (ยกเว้นจับ handle ของรูปที่เลือกอยู่)
+    const clickedExisting = !layer?.draft?.length && overSelectedHandle();
     if(type==='anchor'){
       // Hit-test in screen pixels, so tolerance remains reliable at every zoom level.
       const rect=canvas.getBoundingClientRect();
@@ -692,6 +700,7 @@ input[type=color]{width:100%;height:38px;padding:3px;border:1px solid var(--line
         const hd=selectionHandles(pseudo).find(h=>Math.abs(p.x-h.x)<=9&&Math.abs(p.y-h.y)<=9);
         if(hd){snapshot();editDrag={mode:'resizeMulti',items:items.map(i=>({shape:i.shape,points:i.shape.points.map(clonePoint)})),start:p,anchor:{x:hd.ax,y:hd.ay},handle:hd};canvas.setPointerCapture(event.pointerId);$('status').textContent='กำลังปรับขนาดหลายรูป';return;}
       }
+      const topHit = (() => { for (let li=0; li<layers.length; li++) { const l=layers[li]; if(!l.visible) continue; for (let i=l.shapes.length-1; i>=0; i--) if (hitShape(p.x,p.y,l.shapes[i])) return {layerId:l.id,shape:l.shapes[i]}; } return null; })();
       // Resize only when grabbing one of the visible handles of the currently selected shape.
       if(items.length===1 && selected && selected.layerId===activeLayerId && selected.shape && layers.some(l=>l.id===selected.layerId&&l.visible&&l.shapes.includes(selected.shape))){
         const rh=rotationHandle(selected.shape);
@@ -716,11 +725,10 @@ input[type=color]{width:100%;height:38px;padding:3px;border:1px solid var(--line
             else if(Math.hypot(p.x-q.x,p.y-q.y)<=tol)hitA={i,part:'pt'};}
           if(hitA){snapshot();editDrag={mode:'anchor',shape:selected.shape,idx:hitA.i,part:hitA.part,start:p,points:pts.map(clonePoint)};canvas.setPointerCapture(event.pointerId);$('status').textContent='กำลังลากจุดยึด (Anchor)';return;}
         }
-        if(!handle&&tryStartBend(selected.shape,p,event.pointerId))return;
+        if(!handle&&(!topHit||topHit.shape===selected.shape)&&tryStartBend(selected.shape,p,event.pointerId))return;
         if(handle){snapshot();editDrag={mode:'resize',shape:selected.shape,start:p,points:selected.shape.points.map(clonePoint),anchor:{x:handle.ax,y:handle.ay}};canvas.setPointerCapture(event.pointerId);return;}
       }
-      let found=null;
-      for(let li=0;li<layers.length&&!found;li++){const l=layers[li];if(!l.visible)continue;for(let i=l.shapes.length-1;i>=0;i--){if(hitShape(p.x,p.y,l.shapes[i])){found={layerId:l.id,shape:l.shapes[i]};break;}}}
+      const found=topHit;
       if(found){
         const modKey=event.shiftKey||event.ctrlKey||event.metaKey;
         const cur=selItems().map(i=>i.shape);
