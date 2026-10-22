@@ -78,7 +78,7 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
         <label class="field"><span>ความสูง (height)</span><input id="height" type="number" min="100" max="1600" step="50" value="400"></label>
         <label class="field"><span>ระยะห่างเส้นกริด</span><input id="grid" type="number" min="10" max="200" step="10" value="50"></label>
         <label class="field"><span>ขนาดจุด</span><input id="pointSize" type="number" min="2" max="12" value="4"></label>
-        <label class="field"><span>เครื่องมือ</span><select id="shape"><option value="select">เลือก / ขยับ / ปรับขนาด</option><option value="polygon">รูปหลายเหลี่ยม</option><option value="line">เส้น</option><option value="rect">สี่เหลี่ยมผืนผ้า</option><option value="oval">วงรี / วงกลม</option><option value="triangle">สามเหลี่ยม</option><option value="point">จุด</option></select></label>
+        <label class="field"><span>เครื่องมือ</span><select id="shape"><option value="select">เลือก / ขยับ / ปรับขนาด</option><option value="polygon">Pen / Polygon (คลิกลากเพื่อทำเส้นโค้ง)</option><option value="anchor">เพิ่มจุดยึด (Add Anchor Point)</option><option value="convert">แปลงจุด Convert Point (ลากจากจุด = ทำให้โค้ง / คลิก = มุมแหลม)</option><option value="line">เส้น</option><option value="rect">สี่เหลี่ยมผืนผ้า</option><option value="oval">วงรี / วงกลม</option><option value="triangle">สามเหลี่ยม</option><option value="point">จุด</option></select></label>
         <div id="toolOptions"><label class="color-field">สี Fill<input id="fillColor" type="color" value="#f6c453"></label><label class="color-field">สี Outline<input id="outlineColor" type="color" value="#202820"></label></div>
         <label class="field"><span>ความหนาเส้น</span><input id="lineWidth" type="number" min="1" max="20" value="3"></label>
         <label class="check"><input id="fillEnabled" type="checkbox" checked> เปิดใช้สี Fill</label>
@@ -90,18 +90,18 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
         <div class="actions"><button class="primary" id="addLayer">＋ เพิ่ม Layer</button><button class="secondary" id="renameLayer">เปลี่ยนชื่อ</button><button class="ghost" id="deleteLayer">ลบ Layer</button></div>
         <div id="layers" class="layer-list"></div>
         <p class="hint">คลิกเลือก Layer เพื่อวาดแยกชั้น เปิด/ปิดตาเพื่อซ่อนหรือแสดง และใช้ปุ่ม ↑ ↓ เปลี่ยนลำดับชั้น (ชั้นบนจะวาดทับชั้นล่าง)</p>
-        <p class="hint">พิกัดเริ่มจากมุมซ้ายบน (0, 0) แบบเดียวกับ Tkinter Canvas: x เพิ่มไปทางขวา และ y เพิ่มลงล่าง<br>คลิกตรงไหนก็ได้เพื่อวางจุดอิสระ หากเปิด “ล็อกจุด” จะดูดเข้าค่ากริด</p>
+        <p class="hint">พิกัดเริ่มจากมุมซ้ายบน (0, 0) แบบเดียวกับ Tkinter Canvas: x เพิ่มไปทางขวา และ y เพิ่มลงล่าง<br>เครื่องมือ Pen / Polygon: คลิกเพื่อสร้างมุม หรือคลิกค้างแล้วลากเพื่อสร้างเส้นโค้ง; ใช้ Add Anchor Point คลิกใกล้เส้นขอบ Polygon เพื่อเพิ่มจุดยึด และเปลี่ยนสีรูปที่เลือกได้จากช่องสี Fill/Outline<br><b>ทำให้เส้นโค้งแบบ Photoshop:</b> (1) โหมดเลือก — ลากที่ตัวเส้น (เส้นตรงหรือเส้นโค้งก็ได้) เพื่อดึงให้โค้ง (2) ลากที่ handle เพื่อปรับความโค้ง จุดที่เป็น smooth จะหมุน handle อีกข้างตามอัตโนมัติ (กด Alt ค้างเพื่อแยกอิสระ) (3) เครื่องมือ “แปลงจุด” — ลากจากจุดยึดเพื่อดึง handle ออกมา หรือคลิกที่จุดเพื่อเปลี่ยนกลับเป็นมุมแหลม</p>
       </aside>
       <section>
         <div class="panel canvas-panel">
-          <div class="canvas-top"><h2>พื้นที่วาด</h2><div class="actions" style="margin:0"><button class="ghost" id="zoomOut">−</button><span id="zoomValue" style="align-self:center;font-size:12px">100%</span><button class="ghost" id="zoomIn">＋</button><button class="ghost" id="zoomReset">รีเซ็ตซูม</button></div><span id="status">เลือกเครื่องมือ แล้วคลิกหรือลากบน Canvas</span></div>
+          <div class="canvas-top"><h2>พื้นที่วาด</h2><div class="actions" style="margin:0"><button class="ghost" id="zoomOut">−</button><span id="zoomValue" style="align-self:center;font-size:12px">100%</span><button class="ghost" id="zoomIn">＋</button><button class="ghost" id="zoomReset">รีเซ็ตซูม</button></div><span id="status">เลือกเครื่องมือ แล้วคลิกหรือลากบน Canvas — หมุนรูปด้วยจุดกลมเหนือกรอบ</span></div>
           <div class="canvas-wrap"><canvas id="drawing" width="600" height="400" aria-label="พื้นที่วาดพิกัด"></canvas></div>
         </div>
         <div class="panel coordinates">
           <div class="coordinates-head"><h2>พิกัดของรูปที่กำลังสร้าง <span id="count">(0)</span></h2></div>
           <ol id="pointList"><li>ยังไม่มีจุด — คลิกบน Canvas เพื่อเริ่ม</li></ol>
-          <textarea id="codeEditor" rows="8" spellcheck="false" style="display:block;width:100%;white-space:pre;overflow:auto;padding:12px;margin-top:12px;background:light-dark(#f1f5f2,#151b17);border:1px solid light-dark(#d8e5dc,#3c4a40);border-radius:8px;font:12px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace"># เลือกรูปเพื่อดูโค้ด หรือวาดรูปใหม่</textarea><div class="actions"><button class="secondary" id="applyCode">นำโค้ดไปใช้ / แทนที่รูป</button><button class="ghost" id="copy">คัดลอกโค้ด</button></div>
-          <p class="hint">พิกัดในส่วนนี้ยังเป็นพิกัด Canvas ของรูปที่กำลังสร้างเท่านั้น ไม่ได้เปลี่ยนตาม Layer หรือการซ่อน Layer โดยโค้ดที่คัดลอกจะรวมรูปทั้งหมดที่มองเห็น</p>
+          <textarea id="codeEditor" rows="8" spellcheck="false" style="display:block;width:100%;white-space:pre;overflow:auto;padding:12px;margin-top:12px;background:light-dark(#f1f5f2,#151b17);border:1px solid light-dark(#d8e5dc,#3c4a40);border-radius:8px;font:12px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace"># เลือกรูปเพื่อดูโค้ด หรือวาดรูปใหม่</textarea><div class="actions"><button class="secondary" id="applyCode">อัปเดตกราฟจากโค้ด</button><button class="ghost" id="copy">คัดลอกโค้ด</button></div>
+          <p class="hint">แก้โค้ดในช่องนี้แล้วกราฟจะอัปเดตอัตโนมัติเมื่อมีคำสั่งที่อ่านได้; รูปที่แก้จะถูกแทนที่ใน Layer ที่เลือก. การหมุนจะแปลงรูปสี่เหลี่ยม/วงรีเป็น Polygon เพื่อรักษามุมหมุน. พิกัดเป็นพิกัด Canvas และโค้ดที่คัดลอกจะรวมรูปทั้งหมดที่มองเห็น</p>
         </div>
       </section>
     </div>
@@ -121,11 +121,13 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
   let zoom = 1;
   let selected = null; // {layerId, shape}
   let editDrag = null;
+  let penDrag = null;
   const canvasWrap = document.querySelector('.canvas-wrap');
   let spaceDown = false;
   let panDrag = null;
   let history = [];
   let restoring = false;
+  let codeDirty = false;
   const activeLayer = () => layers.find(l => l.id === activeLayerId);
   function snapshot(){ if(restoring) return; history.push(JSON.stringify({layers,activeLayerId,nextLayerId,width:canvas.width,height:canvas.height})); if(history.length>100)history.shift(); }
   function undo(){ if(!history.length){$('status').textContent='ไม่มีประวัติให้ย้อนกลับ';return;} const state=JSON.parse(history.pop());restoring=true;layers=state.layers;activeLayerId=state.activeLayerId;nextLayerId=state.nextLayerId;canvas.width=state.width;canvas.height=state.height;$('width').value=state.width;$('height').value=state.height;selected=null;restoring=false;draw();$('status').textContent='ย้อนกลับแล้ว';}
@@ -137,6 +139,46 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
     pointSize: Math.max(2, Math.min(12, Number($('pointSize').value) || 4))
   });
   const styleNow = () => ({fill: $('fillEnabled').checked ? $('fillColor').value : '', outline: $('outlineEnabled').checked ? $('outlineColor').value : '', width: Math.max(1, Math.min(20, Number($('lineWidth').value) || 3))});
+  function syncStyleControls(shape){ if(!shape)return; if(shape.fill)$('fillColor').value=shape.fill; $('fillEnabled').checked=!!shape.fill; if(shape.outline)$('outlineColor').value=shape.outline; $('outlineEnabled').checked=!!shape.outline; $('lineWidth').value=shape.width||3; }
+  const clonePoint = p => ({x:p.x,y:p.y,...(p.smooth?{smooth:true}:{}),...(p.in?{in:{x:p.in.x,y:p.in.y}}:{}),...(p.out?{out:{x:p.out.x,y:p.out.y}}:{})});
+  function nearestSegment(x,y,pts,closed=true){
+    let best=null, count=closed?pts.length:pts.length-1;
+    for(let i=0;i<count;i++){const a=pts[i],b=pts[(i+1)%pts.length];const samples=[];
+      for(let k=0;k<=30;k++){const t=k/30,u=1-t;let q;
+        if(a.out||b.in){const c1=a.out||a,c2=b.in||b;q={x:u*u*u*a.x+3*u*u*t*c1.x+3*u*t*t*c2.x+t*t*t*b.x,y:u*u*u*a.y+3*u*u*t*c1.y+3*u*t*t*c2.y+t*t*t*b.y};}
+        else q={x:a.x+(b.x-a.x)*t,y:a.y+(b.y-a.y)*t};
+        samples.push({x:q.x,y:q.y,t});}
+      for(const q of samples){const d=Math.hypot(x-q.x,y-q.y);if(!best||d<best.d)best={d,i,t:q.t,a,b,x:q.x,y:q.y};}
+    } return best;
+  }
+  function editablePoints(sh){
+    if(sh.type==='rect'||sh.type==='oval'){
+      const a=sh.points[0],b=sh.points[1]; if(!a||!b) return [];
+      const x1=Math.min(a.x,b.x),y1=Math.min(a.y,b.y),x2=Math.max(a.x,b.x),y2=Math.max(a.y,b.y);
+      if(sh.type==='rect') return [{x:x1,y:y1},{x:x2,y:y1},{x:x2,y:y2},{x:x1,y:y2}];
+      const cx=(x1+x2)/2,cy=(y1+y2)/2,rx=(x2-x1)/2,ry=(y2-y1)/2;
+      return Array.from({length:48},(_,i)=>({x:cx+Math.cos(i*Math.PI*2/48)*rx,y:cy+Math.sin(i*Math.PI*2/48)*ry}));
+    }
+    return sh.points||[];
+  }
+  function convertToPolygon(sh){ if(sh.type==='rect'||sh.type==='oval'){ sh.points=editablePoints(sh); sh.type='polygon'; } }
+  function addAnchorAtHit(shape, hit){
+    if(!shape||!['polygon','triangle','line'].includes(shape.type)||!Array.isArray(shape.points)||shape.points.length<2||!hit)return null;
+    const pts=shape.points, i=hit.i, t=Math.max(0,Math.min(1,hit.t));
+    const a=pts[i], b=pts[(i+1)%pts.length];
+    if(!a||!b)return null;
+    const point={x:hit.x,y:hit.y};
+    // Split cubic Bezier exactly (De Casteljau), preserving the original curve.
+    if(a.out||b.in){
+      const p0={x:a.x,y:a.y},p1=a.out||p0,p3={x:b.x,y:b.y},p2=b.in||p3;
+      const lerp=(u,v)=>({x:u.x+(v.x-u.x)*t,y:u.y+(v.y-u.y)*t});
+      const q0=lerp(p0,p1),q1=lerp(p1,p2),q2=lerp(p2,p3),r0=lerp(q0,q1),r1=lerp(q1,q2),mid=lerp(r0,r1);
+      point.x=mid.x;point.y=mid.y;
+      a.out=q0; b.in=q2; point.in=r0; point.out=r1; point.smooth=true;
+    } else { point.x=Math.round(point.x); point.y=Math.round(point.y); }
+    pts.splice(i+1,0,point);
+    return {point,index:i+1};
+  }
   function drawGrid(s) {
     ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.strokeStyle = '#3aa879'; ctx.lineWidth = 1.3;
@@ -159,8 +201,18 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
     } else if (shape.type === 'point') {
       if (pts[0]) { ctx.beginPath(); ctx.arc(pts[0].x,pts[0].y,Math.max(3,shape.width+1),0,Math.PI*2); ctx.fillStyle = shape.fill || shape.outline || '#111'; ctx.fill(); }
     } else if (pts.length) {
-      ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y); for (let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x,pts[i].y);
-      if (shape.type === 'polygon' || shape.type === 'triangle') { if (pts.length >= 3) ctx.closePath(); if (shape.fill && pts.length >= 3) ctx.fill(); }
+      ctx.beginPath(); ctx.moveTo(pts[0].x, pts[0].y);
+      const closed = (shape.type === 'polygon' || shape.type === 'triangle') && pts.length >= 3;
+      const segCount = closed ? pts.length : pts.length - 1;
+      for (let i=0;i<segCount;i++) {
+        const a=pts[i], b=pts[(i+1)%pts.length];
+        if (a.out || b.in) {
+          const c1=a.out || a, c2=b.in || b;
+          ctx.bezierCurveTo(c1.x,c1.y,c2.x,c2.y,b.x,b.y);
+        } else ctx.lineTo(b.x,b.y);
+      }
+      if (closed) ctx.closePath();
+      if (shape.fill && closed) ctx.fill();
       if (shape.outline) ctx.stroke();
     }
     if (showPoints && $('labels').checked) pts.forEach((p,i) => { ctx.beginPath(); ctx.arc(p.x,p.y,Math.max(3,getSettings().pointSize),0,Math.PI*2); ctx.fillStyle='#111'; ctx.fill(); const label=`P${i+1}=(${p.x},${p.y})`; ctx.font='bold 12px Arial'; const tx=p.x+7+ctx.measureText(label).width>canvas.width?p.x-ctx.measureText(label).width-8:p.x+7; const ty=p.y+7+15>canvas.height?p.y-17:p.y+7; ctx.fillStyle='#fff'; ctx.fillRect(tx-2,ty-1,ctx.measureText(label).width+4,15); ctx.fillStyle='#111'; ctx.fillText(label,tx,ty); });
@@ -171,6 +223,7 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
     ctx.clearRect(0,0,canvas.width,canvas.height); drawGrid(s);
     layers.filter(l => l.visible).slice().reverse().forEach(layer => { layer.shapes.forEach(shape => drawShape(shape)); if (layer.draft.length) drawShape({type: layer.draftType || (layer.id === activeLayerId ? $('shape').value : 'polygon'), points: layer.draft, ...(layer.draftStyle || styleNow())}, layer.id === activeLayerId); });
     if(selected && layers.some(l=>l.id===selected.layerId && l.visible && l.shapes.includes(selected.shape))) drawSelection(selected.shape);
+    if(['anchor','convert'].includes($('shape').value)) layers.filter(l=>l.visible).forEach(l=>l.shapes.forEach(drawAnchors));
     if (dragging && dragStart && dragNow) drawShape({type:$('shape').value === 'triangle' ? 'polygon' : $('shape').value, points: previewPoints(dragStart,dragNow), ...styleNow()});
     updatePoints();
     renderLayers();
@@ -178,9 +231,9 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
   function previewPoints(a,b) { if ($('shape').value === 'triangle') return [{x:(a.x+b.x)/2,y:a.y},{x:a.x,y:b.y},{x:b.x,y:b.y}]; return [a,b]; }
   function finishDraft() {
     const layer = activeLayer(); if (!layer || !layer.draft.length) return;
-    const type = layer.draftType || $('shape').value; let pts = layer.draft.slice();
+    const type = layer.draftType || $('shape').value; let pts = layer.draft.map(clonePoint);
     if ((type === 'polygon' || type === 'triangle') && pts.length < 3) { $('status').textContent = 'รูปหลายเหลี่ยมต้องมีอย่างน้อย 3 จุด'; return; }
-    layer.shapes.push({type, points:pts, ...(layer.draftStyle || styleNow())}); layer.draft = []; delete layer.draftType; delete layer.draftStyle; draw(); $('status').textContent = 'วางรูปลง Layer แล้ว';
+    layer.shapes.push({type, points:pts, ...(layer.draftStyle || styleNow())}); selected={layerId:layer.id,shape:layer.shapes[layer.shapes.length-1]}; layer.draft = []; delete layer.draftType; delete layer.draftStyle; draw(); $('status').textContent = 'วางรูปลง Layer แล้ว';
   }
   function renderLayers() {
     const root = $('layers'); root.innerHTML = '';
@@ -200,7 +253,7 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
     $('count').textContent = `(${points.length})`;
     const list = $('pointList'); list.innerHTML = '';
     if (!points.length) { const li = document.createElement('li'); li.textContent = 'ยังไม่มีจุด — คลิกบน Canvas เพื่อเริ่ม'; list.appendChild(li); }
-    points.forEach((p, i) => { const li = document.createElement('li'); li.textContent = `P${i + 1} = (${p.x}, ${p.y})`; list.appendChild(li); });
+    points.forEach((p, i) => { const li = document.createElement('li'); li.textContent = `P${i + 1} = (${Math.round(p.x)}, ${Math.round(p.y)})${p.in||p.out?' • มี handle เส้นโค้ง':''}`; list.appendChild(li); });
     const type = $('shape').value; const coords = points.flatMap(p => [p.x, p.y]);
     const method = type === 'line' ? 'create_line' : type === 'rect' ? 'create_rectangle' : type === 'oval' ? 'create_oval' : type === 'point' ? 'create_oval' : 'create_polygon';
     let code = '';
@@ -212,8 +265,8 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
       code=`c.${method}(${finalCoords.join(', ')}, fill='${fill}', outline='${st.outline}', width=${st.width})`;
     } else code = '# เลือกเครื่องมือแล้วคลิก/ลากเพื่อสร้างรูป';
     const allShapes = layers.filter(l=>l.visible).flatMap(l=>l.shapes);
-    if (allShapes.length) code += '\n\n# รูปที่วางไว้แล้ว (ทุก Layer ที่มองเห็น)\n' + allShapes.map(sh=>{const c=sh.points.flatMap(p=>[Math.round(p.x),Math.round(p.y)]);const m=sh.type==='line'?'create_line':sh.type==='rect'?'create_rectangle':sh.type==='oval'?'create_oval':sh.type==='point'?'create_oval':'create_polygon';const f=sh.type==='line'?'':sh.fill;return `c.${m}(${c.join(', ')}, fill='${f}', outline='${sh.outline}', width=${sh.width})`;}).join('\n');
-    $('codeEditor').value = code;
+    if (allShapes.length) code += '\n\n# รูปที่วางไว้แล้ว (ทุก Layer ที่มองเห็น)\n' + allShapes.map(sh=>{let pts=sh.points;if(['polygon','triangle','line'].includes(sh.type)&&pts.some(p=>p.in||p.out)){const sampled=[];const open=sh.type==='line';for(let i=0;i<(open?pts.length-1:pts.length);i++){const a=pts[i],b=pts[(i+1)%pts.length];sampled.push({x:a.x,y:a.y});const curved=a.out||b.in;if(curved){const c1=a.out||a,c2=b.in||b;for(let k=1;k<16;k++){const t=k/16,u=1-t;sampled.push({x:u*u*u*a.x+3*u*u*t*c1.x+3*u*t*t*c2.x+t*t*t*b.x,y:u*u*u*a.y+3*u*u*t*c1.y+3*u*t*t*c2.y+t*t*t*b.y});}}}if(open)sampled.push({x:pts[pts.length-1].x,y:pts[pts.length-1].y});pts=sampled;}const c=pts.flatMap(p=>[Math.round(p.x),Math.round(p.y)]);const m=sh.type==='line'?'create_line':sh.type==='rect'?'create_rectangle':sh.type==='oval'?'create_oval':sh.type==='point'?'create_oval':'create_polygon';const f=sh.type==='line'?'':sh.fill;return `c.${m}(${c.join(', ')}, fill='${f}', outline='${sh.outline}', width=${sh.width})`;}).join('\n');
+    if (!codeDirty) $('codeEditor').value = code;
     applyZoom();
   }
   function bounds(shape){ const pts=shape.points||[]; if(!pts.length)return null; const xs=pts.map(p=>p.x),ys=pts.map(p=>p.y);return {x:Math.min(...xs),y:Math.min(...ys),w:Math.max(1,Math.max(...xs)-Math.min(...xs)),h:Math.max(1,Math.max(...ys)-Math.min(...ys))}; }
@@ -223,10 +276,32 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
     {name:'sw',x:b.x,y:b.y+b.h,ax:b.x+b.w,ay:b.y},
     {name:'se',x:b.x+b.w,y:b.y+b.h,ax:b.x,ay:b.y}
   ]; }
-  function drawSelection(shape){ const b=bounds(shape);if(!b)return;ctx.save();ctx.strokeStyle='#087fef';ctx.lineWidth=2;ctx.setLineDash([5,4]);ctx.strokeRect(b.x-4,b.y-4,b.w+8,b.h+8);ctx.setLineDash([]);ctx.fillStyle='#087fef';for(const h of selectionHandles(shape))ctx.fillRect(h.x-4,h.y-4,9,9);ctx.restore(); }
+  function rotationHandle(shape){const b=bounds(shape);return b?{x:b.x+b.w/2,y:b.y-28,cx:b.x+b.w/2,cy:b.y+b.h/2}:null;}
+  function drawSelection(shape){ const b=bounds(shape);if(!b)return;ctx.save();ctx.strokeStyle='#087fef';ctx.lineWidth=2;ctx.setLineDash([5,4]);ctx.strokeRect(b.x-4,b.y-4,b.w+8,b.h+8);ctx.setLineDash([]);ctx.fillStyle='#087fef';for(const h of selectionHandles(shape))ctx.fillRect(h.x-4,h.y-4,9,9);
+    const rh=rotationHandle(shape);if(rh){ctx.strokeStyle='#087fef';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(rh.cx,b.y);ctx.lineTo(rh.x,rh.y);ctx.stroke();ctx.beginPath();ctx.arc(rh.x,rh.y,6,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.stroke();}
+    if(shape.type==='polygon'||shape.type==='triangle'||shape.type==='line'){shape.points.forEach(pt=>{if(pt.in||pt.out){ctx.strokeStyle='#16885b';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(pt.x,pt.y);if(pt.in){ctx.lineTo(pt.in.x,pt.in.y);ctx.fillStyle='#fff';ctx.fillRect(pt.in.x-3,pt.in.y-3,6,6);}if(pt.out){ctx.moveTo(pt.x,pt.y);ctx.lineTo(pt.out.x,pt.out.y);ctx.fillStyle='#fff';ctx.fillRect(pt.out.x-3,pt.out.y-3,6,6);}ctx.stroke();}});}
+    drawAnchors(shape);
+    ctx.restore(); }
+  function drawAnchors(shape){
+    if(!shape||!['polygon','triangle','line'].includes(shape.type))return;
+    ctx.save();ctx.setLineDash([]);ctx.lineWidth=2;ctx.strokeStyle='#087fef';ctx.fillStyle='#fff';
+    shape.points.forEach(pt=>{ctx.beginPath();ctx.arc(pt.x,pt.y,5,0,Math.PI*2);ctx.fill();ctx.stroke();});
+    ctx.restore();
+  }
   function pointInPolygon(x,y,pts){let inside=false;for(let i=0,j=pts.length-1;i<pts.length;j=i++){const a=pts[i],b=pts[j];if(((a.y>y)!==(b.y>y))&&(x<(b.x-a.x)*(y-a.y)/(b.y-a.y)+a.x))inside=!inside;}return inside;}
   function nearSegment(x,y,a,b,pad){const dx=b.x-a.x,dy=b.y-a.y,len2=dx*dx+dy*dy;const t=len2?Math.max(0,Math.min(1,((x-a.x)*dx+(y-a.y)*dy)/len2)):0;return Math.hypot(x-(a.x+t*dx),y-(a.y+t*dy))<=pad;}
-  function hitShape(x,y,shape){const pts=shape.points||[],b=bounds(shape);if(!b||!pts.length)return false;const pad=Math.max(7,(shape.width||1)+4);if(shape.type==='point')return Math.hypot(x-pts[0].x,y-pts[0].y)<14;if(shape.type==='polygon'||shape.type==='triangle'){if(x>=b.x-pad&&x<=b.x+b.w+pad&&y>=b.y-pad&&y<=b.y+b.h+pad)return true;return false;}if(shape.type==='line')return pts.length>=2&&nearSegment(x,y,pts[0],pts[1],pad);return x>=b.x-pad&&x<=b.x+b.w+pad&&y>=b.y-pad&&y<=b.y+b.h+pad;}
+  function hitShape(x,y,shape){const pts=shape.points||[],b=bounds(shape);if(!b||!pts.length)return false;const pad=Math.max(7,(shape.width||1)+4);if(shape.type==='point')return Math.hypot(x-pts[0].x,y-pts[0].y)<14;if(shape.type==='polygon'||shape.type==='triangle'){if(x>=b.x-pad&&x<=b.x+b.w+pad&&y>=b.y-pad&&y<=b.y+b.h+pad)return true;return false;}if(shape.type==='line'){const h=pts.length>=2?nearestSegment(x,y,pts,false):null;return !!h&&h.d<=pad;}return x>=b.x-pad&&x<=b.x+b.w+pad&&y>=b.y-pad&&y<=b.y+b.h+pad;}
+  function tryStartBend(sh,p,pointerId){
+    if(!['polygon','triangle','line'].includes(sh.type)||!sh.points||sh.points.length<2)return false;
+    const rc=canvas.getBoundingClientRect(),k=rc.width/Math.max(1,canvas.width);
+    const h=nearestSegment(p.x,p.y,sh.points,sh.type!=='line');
+    if(!h||h.d*k>10)return false;
+    snapshot();
+    editDrag={mode:'bend',shape:sh,seg:h.i,t:Math.max(.15,Math.min(.85,h.t)),start:p,points:sh.points.map(clonePoint)};
+    canvas.setPointerCapture(pointerId);
+    $('status').textContent='กำลังดึงเส้นให้โค้ง — ลากเมาส์';
+    return true;
+  }
   function exportProject(){return {app:'Coordinate Canvas',version:2,width:canvas.width,height:canvas.height,grid:$('grid').value,pointSize:$('pointSize').value,labels:$('labels').checked,layers,activeLayerId,nextLayerId};}
   function loadProject(data){if(!data||!Array.isArray(data.layers))throw new Error('ไฟล์โปรเจกต์ไม่ถูกต้อง');snapshot();layers=data.layers;activeLayerId=data.activeLayerId||layers[0]?.id||1;nextLayerId=data.nextLayerId||Math.max(...layers.map(l=>l.id))+1;canvas.width=Number(data.width)||600;canvas.height=Number(data.height)||400;$('width').value=canvas.width;$('height').value=canvas.height;if(data.grid)$('grid').value=data.grid;if(data.pointSize)$('pointSize').value=data.pointSize;if(typeof data.labels==='boolean')$('labels').checked=data.labels;selected=null;draw();applyZoom();$('status').textContent='โหลดโปรเจกต์แล้ว';}
   function resizeCanvas() {
@@ -246,18 +321,74 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
       event.preventDefault(); panDrag={x:event.clientX,y:event.clientY,left:canvasWrap.scrollLeft,top:canvasWrap.scrollTop}; canvasWrap.classList.add('panning'); canvas.style.cursor='grabbing'; canvas.setPointerCapture?.(event.pointerId); return;
     }
     if(event.button!==0)return;
-    const type=$('shape').value, p=getPoint(event, type!=='select'), layer=activeLayer();
+    codeDirty=false;
+    const type=$('shape').value, p=getPoint(event, !['select','anchor','convert'].includes(type)), layer=activeLayer();
     const clickedExisting = !layer?.draft?.length && layers.some(l=>l.visible && l.shapes.some(sh=>hitShape(p.x,p.y,sh)));
+    if(type==='anchor'){
+      // Hit-test in screen pixels, so tolerance remains reliable at every zoom level.
+      const rect=canvas.getBoundingClientRect();
+      const sx=rect.width/Math.max(1,canvas.width), sy=rect.height/Math.max(1,canvas.height);
+      const tolerancePx=18;
+      let candidates=[];
+      const ANCH=['polygon','triangle','rect','oval','line'];
+      if(selected&&selected.shape&&ANCH.includes(selected.shape.type)) candidates.push(selected);
+      for(let li=layers.length-1;li>=0;li--){const l=layers[li];if(!l.visible)continue;for(let i=l.shapes.length-1;i>=0;i--){const sh=l.shapes[i];if(!ANCH.includes(sh.type))continue;if(!candidates.some(c=>c.shape===sh))candidates.push({layerId:l.id,shape:sh});}}
+      let found=null,bestHit=null,bestPx=Infinity;
+      for(const candidate of candidates){
+        const hit=nearestSegment(p.x,p.y,editablePoints(candidate.shape),candidate.shape.type!=='line');
+        if(!hit)continue;
+        const screenDistance=Math.hypot((hit.x-p.x)*sx,(hit.y-p.y)*sy);
+        if(screenDistance<bestPx){bestPx=screenDistance;found=candidate;bestHit=hit;}
+      }
+      if(found&&bestHit&&bestPx<=tolerancePx){
+        snapshot();convertToPolygon(found.shape);const added=addAnchorAtHit(found.shape,bestHit);
+        if(added){selected=found;activeLayerId=found.layerId;syncStyleControls(found.shape);codeDirty=false;draw();$('status').textContent=`เพิ่ม Anchor Point แล้ว (จุดที่ ${added.index+1})`;}
+        else $('status').textContent='เพิ่มจุดไม่ได้: ต้องเลือกรูป Polygon ที่วาดเสร็จแล้ว';
+      } else $('status').textContent=(layer&&layer.draft.length)?'รูปยังวาดไม่เสร็จ — กด “จบรูป / วางรูป” ก่อน แล้วค่อยเพิ่ม Anchor Point':'คลิกใกล้เส้นขอบรูป เพื่อเพิ่ม Anchor Point (ระยะจับประมาณ 18 px)';
+      return;
+    }
+    if(type==='convert'){
+      const rc=canvas.getBoundingClientRect(),tol=12*canvas.width/Math.max(1,rc.width);
+      const cands=[];if(selected&&selected.shape)cands.push(selected);
+      for(const l of layers){if(!l.visible)continue;for(const sh of l.shapes)if(!cands.some(c=>c.shape===sh))cands.push({layerId:l.id,shape:sh});}
+      let hit=null;
+      for(const c of cands){if(!['polygon','triangle','line'].includes(c.shape.type))continue;const i=c.shape.points.findIndex(q=>Math.hypot(q.x-p.x,q.y-p.y)<=tol);if(i>=0){hit={c,i};break;}}
+      if(hit){snapshot();selected=hit.c;activeLayerId=hit.c.layerId;syncStyleControls(hit.c.shape);editDrag={mode:'convert',shape:hit.c.shape,idx:hit.i,start:p,moved:false,points:hit.c.shape.points.map(clonePoint)};canvas.setPointerCapture(event.pointerId);draw();$('status').textContent='ลากเพื่อดึง handle ให้โค้ง หรือปล่อยเลยเพื่อเปลี่ยนเป็นมุมแหลม';}
+      else $('status').textContent='คลิกที่จุดยึด (วงกลมน้ำเงิน) ของรูป';
+      return;
+    }
     if(type==='select' || clickedExisting){
       // Resize only when grabbing one of the visible handles of the currently selected shape.
       if(selected && selected.layerId===activeLayerId && selected.shape && layers.some(l=>l.id===selected.layerId&&l.visible&&l.shapes.includes(selected.shape))){
+        const rh=rotationHandle(selected.shape);
+        if(rh&&Math.hypot(p.x-rh.x,p.y-rh.y)<=12){
+          snapshot();
+          const sh=selected.shape;
+          if(sh.type==='rect'||sh.type==='oval'){
+            const a=sh.points[0],b=sh.points[1],cx=(a.x+b.x)/2,cy=(a.y+b.y)/2;
+            if(sh.type==='rect') sh.points=[{x:Math.min(a.x,b.x),y:Math.min(a.y,b.y)},{x:Math.max(a.x,b.x),y:Math.min(a.y,b.y)},{x:Math.max(a.x,b.x),y:Math.max(a.y,b.y)},{x:Math.min(a.x,b.x),y:Math.max(a.y,b.y)}];
+            else {const rx=Math.abs(b.x-a.x)/2,ry=Math.abs(b.y-a.y)/2;sh.points=Array.from({length:48},(_,i)=>({x:cx+Math.cos(i*Math.PI*2/48)*rx,y:cy+Math.sin(i*Math.PI*2/48)*ry}));}
+            sh.type='polygon';
+          }
+          const bb=bounds(sh),center={x:bb.x+bb.w/2,y:bb.y+bb.h/2};
+          editDrag={mode:'rotate',shape:sh,start:p,points:sh.points.map(clonePoint),center,startAngle:Math.atan2(p.y-center.y,p.x-center.x)};canvas.setPointerCapture(event.pointerId);$('status').textContent='กำลังหมุนรูป — ลากเมาส์รอบจุดศูนย์กลาง';return;
+        }
         const handle=selectionHandles(selected.shape).find(h=>Math.abs(p.x-h.x)<=9&&Math.abs(p.y-h.y)<=9);
-        if(handle){snapshot();editDrag={mode:'resize',shape:selected.shape,start:p,points:selected.shape.points.map(q=>({...q})),anchor:{x:handle.ax,y:handle.ay}};canvas.setPointerCapture(event.pointerId);return;}
+        if(['polygon','triangle','line'].includes(selected.shape.type)&&(!handle||event.altKey)){
+          const rc=canvas.getBoundingClientRect(),tol=10*canvas.width/Math.max(1,rc.width),pts=selected.shape.points;let hitA=null;
+          for(let i=0;i<pts.length&&!hitA;i++){const q=pts[i];
+            if(q.out&&Math.hypot(p.x-q.out.x,p.y-q.out.y)<=tol)hitA={i,part:'out'};
+            else if(q.in&&Math.hypot(p.x-q.in.x,p.y-q.in.y)<=tol)hitA={i,part:'in'};
+            else if(Math.hypot(p.x-q.x,p.y-q.y)<=tol)hitA={i,part:'pt'};}
+          if(hitA){snapshot();editDrag={mode:'anchor',shape:selected.shape,idx:hitA.i,part:hitA.part,start:p,points:pts.map(clonePoint)};canvas.setPointerCapture(event.pointerId);$('status').textContent='กำลังลากจุดยึด (Anchor)';return;}
+        }
+        if(!handle&&tryStartBend(selected.shape,p,event.pointerId))return;
+        if(handle){snapshot();editDrag={mode:'resize',shape:selected.shape,start:p,points:selected.shape.points.map(clonePoint),anchor:{x:handle.ax,y:handle.ay}};canvas.setPointerCapture(event.pointerId);return;}
       }
       let found=null;
       for(let li=layers.length-1;li>=0&&!found;li--){const l=layers[li];if(!l.visible)continue;for(let i=l.shapes.length-1;i>=0;i--){if(hitShape(p.x,p.y,l.shapes[i])){found={layerId:l.id,shape:l.shapes[i]};break;}}}
       if(found){
-        selected=found;activeLayerId=found.layerId;snapshot();editDrag={mode:'move',shape:found.shape,start:p,points:found.shape.points.map(q=>({...q}))};canvas.setPointerCapture(event.pointerId);$('status').textContent='เลือก Polygon/รูปแล้ว — ลากเพื่อขยับ หรือจับจุดสีน้ำเงินที่มุมเพื่อปรับขนาด';
+        selected=found;activeLayerId=found.layerId;syncStyleControls(found.shape);if(tryStartBend(found.shape,p,event.pointerId)){draw();return;}snapshot();editDrag={mode:'move',shape:found.shape,start:p,points:found.shape.points.map(clonePoint)};canvas.setPointerCapture(event.pointerId);$('status').textContent='เลือก Polygon/รูปแล้ว — ลากเพื่อขยับ หรือจับจุดสีน้ำเงินที่มุมเพื่อปรับขนาด';
       }else{selected=null;$('status').textContent='ไม่พบรูปตรงตำแหน่งที่คลิก';}
       draw();return;
     }
@@ -265,28 +396,58 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
     snapshot();
     if(type==='rect'||type==='oval'||type==='triangle'){dragging=true;dragStart=p;dragNow=p;canvas.setPointerCapture(event.pointerId);draw();}
     else if(type==='point'){layer.shapes.push({type,points:[p],...styleNow()});selected={layerId:layer.id,shape:layer.shapes[layer.shapes.length-1]};draw();$('status').textContent=`จุด (${p.x}, ${p.y})`;}
-    else {if(layer.draft.length===0){layer.draftType=type;layer.draftStyle=styleNow();}layer.draft.push(p);draw();$('status').textContent=`จุด ${layer.draft.length}: (${p.x}, ${p.y}) — กด “จบรูป / วางรูป” เมื่อเสร็จ`;if(type==='line'&&layer.draft.length===2)finishDraft();}
+    else {
+      if(layer.draft.length===0){layer.draftType=type;layer.draftStyle=styleNow();}
+      const anchor={x:p.x,y:p.y};layer.draft.push(anchor);
+      if(type==='polygon'){penDrag={point:anchor,start:p,moved:false,layer};canvas.setPointerCapture(event.pointerId);}
+      draw();$('status').textContent=`Anchor ${layer.draft.length}: (${p.x}, ${p.y}) — คลิกเพื่อมุม หรือคลิกค้างแล้วลากเพื่อสร้างเส้นโค้ง; กด “จบรูป / วางรูป” เมื่อเสร็จ`;
+      if(type==='line'&&layer.draft.length===2)finishDraft();
+    }
   });
   canvas.addEventListener('pointermove', event=>{
     if(panDrag){canvasWrap.scrollLeft=panDrag.left-(event.clientX-panDrag.x);canvasWrap.scrollTop=panDrag.top-(event.clientY-panDrag.y);return;}
     if(editDrag){
       const p=getPoint(event,false),sh=editDrag.shape,dx=p.x-editDrag.start.x,dy=p.y-editDrag.start.y;
       if(editDrag.mode==='move'){
-        sh.points=editDrag.points.map(q=>({x:Math.max(0,Math.min(canvas.width,q.x+dx)),y:Math.max(0,Math.min(canvas.height,q.y+dy))}));
+        sh.points=editDrag.points.map(q=>{const r=clonePoint(q);r.x=Math.max(0,Math.min(canvas.width,q.x+dx));r.y=Math.max(0,Math.min(canvas.height,q.y+dy));for(const k of ['in','out'])if(q[k])r[k]={x:Math.max(0,Math.min(canvas.width,q[k].x+dx)),y:Math.max(0,Math.min(canvas.height,q[k].y+dy))};return r;});
+      }else if(editDrag.mode==='rotate'){
+        const angle=Math.atan2(p.y-editDrag.center.y,p.x-editDrag.center.x)-editDrag.startAngle,cos=Math.cos(angle),sin=Math.sin(angle),c=editDrag.center;
+        const rot=q=>{const r=clonePoint(q);const turn=v=>({x:c.x+(v.x-c.x)*cos-(v.y-c.y)*sin,y:c.y+(v.x-c.x)*sin+(v.y-c.y)*cos});const v=turn(q);r.x=v.x;r.y=v.y;for(const k of ['in','out'])if(q[k])r[k]=turn(q[k]);return r;};sh.points=editDrag.points.map(rot);
+      }else if(editDrag.mode==='convert'){
+        const t=sh.points[editDrag.idx];
+        if(Math.hypot(dx,dy)>3)editDrag.moved=true;
+        if(editDrag.moved){t.out={x:p.x,y:p.y};t.in={x:2*t.x-p.x,y:2*t.y-p.y};t.smooth=true;}
+      }else if(editDrag.mode==='bend'){
+        const n=editDrag.points.length,i=editDrag.seg,j=(i+1)%n,a=editDrag.points[i],b=editDrag.points[j],t=editDrag.t;
+        const P1=a.out||{x:a.x,y:a.y},P2=b.in||{x:b.x,y:b.y};
+        const w1=3*(1-t)*(1-t)*t,w2=3*(1-t)*t*t,sq=w1*w1+w2*w2,k1=w1/sq,k2=w2/sq;
+        sh.points[i].out={x:P1.x+dx*k1,y:P1.y+dy*k1};
+        sh.points[j].in={x:P2.x+dx*k2,y:P2.y+dy*k2};
+      }else if(editDrag.mode==='anchor'){
+        const cl=(v,m)=>Math.max(0,Math.min(m,v)),q=editDrag.points[editDrag.idx],t=sh.points[editDrag.idx];
+        if(editDrag.part==='pt'){t.x=cl(q.x+dx,canvas.width);t.y=cl(q.y+dy,canvas.height);const ex=t.x-q.x,ey=t.y-q.y;if(q.in)t.in={x:q.in.x+ex,y:q.in.y+ey};if(q.out)t.out={x:q.out.x+ex,y:q.out.y+ey};}
+        else{
+          t[editDrag.part]={x:cl(q[editDrag.part].x+dx,canvas.width),y:cl(q[editDrag.part].y+dy,canvas.height)};
+          const opp=editDrag.part==='in'?'out':'in';
+          if(event.altKey)t.smooth=false;
+          else if(t.smooth&&q[opp]){const vx=t[editDrag.part].x-t.x,vy=t[editDrag.part].y-t.y,len=Math.hypot(vx,vy),L=Math.hypot(q[opp].x-q.x,q[opp].y-q.y);if(len>0.01)t[opp]={x:t.x-vx/len*L,y:t.y-vy/len*L};}
+        }
       }else{
         const a=editDrag.anchor,b0=bounds({points:editDrag.points});
         const startHandle=selectionHandles({points:editDrag.points}).find(h=>Math.abs(h.x-editDrag.start.x)<=10&&Math.abs(h.y-editDrag.start.y)<=10);
         const sxDen=(startHandle?startHandle.x:editDrag.start.x)-a.x, syDen=(startHandle?startHandle.y:editDrag.start.y)-a.y;
         const sx=Math.abs(sxDen)<1?1:(p.x-a.x)/sxDen, sy=Math.abs(syDen)<1?1:(p.y-a.y)/syDen;
-        sh.points=editDrag.points.map(q=>({x:Math.max(0,Math.min(canvas.width,a.x+(q.x-a.x)*sx)),y:Math.max(0,Math.min(canvas.height,a.y+(q.y-a.y)*sy))}));
+        sh.points=editDrag.points.map(q=>{const r=clonePoint(q);r.x=Math.max(0,Math.min(canvas.width,a.x+(q.x-a.x)*sx));r.y=Math.max(0,Math.min(canvas.height,a.y+(q.y-a.y)*sy));for(const k of ['in','out'])if(q[k])r[k]={x:Math.max(0,Math.min(canvas.width,a.x+(q[k].x-a.x)*sx)),y:Math.max(0,Math.min(canvas.height,a.y+(q[k].y-a.y)*sy))};return r;});
       }
       draw();return;
     }
+    if(penDrag){const p=getPoint(event,false),dx=p.x-penDrag.start.x,dy=p.y-penDrag.start.y;if(Math.hypot(dx,dy)>3){penDrag.moved=true;penDrag.point.smooth=true;penDrag.point.out={x:p.x,y:p.y};penDrag.point.in={x:penDrag.point.x-dx,y:penDrag.point.y-dy};draw();$('status').textContent='กำลังปรับ handle ของเส้นโค้ง';}return;}
     if(dragging){dragNow=getPoint(event);draw();$('status').textContent=`ลากไปที่ (${dragNow.x}, ${dragNow.y})`;}
   });
   function stopPointerAction(){
     if(panDrag){panDrag=null;canvasWrap.classList.remove('panning');canvas.style.cursor=spaceDown?'grab':($('shape').value==='select'?'default':'crosshair');return;}
-    if(editDrag){editDrag=null;draw();$('status').textContent='แก้ไขรูปแล้ว';return;}
+    if(penDrag){penDrag=null;draw();return;}
+    if(editDrag){const mode=editDrag.mode;if(mode==='convert'&&!editDrag.moved){const t=editDrag.shape.points[editDrag.idx];delete t.in;delete t.out;delete t.smooth;}editDrag=null;codeDirty=false;draw();$('status').textContent=mode==='rotate'?'หมุนรูปแล้ว':mode==='resize'?'ปรับขนาดรูปแล้ว':mode==='anchor'?'ย้ายจุดยึดแล้ว':mode==='bend'?'ปรับความโค้งแล้ว':mode==='convert'?'ปรับจุดแล้ว':'ขยับรูปแล้ว';return;}
     if(!dragging)return;
     dragNow=dragNow||dragStart;const type=$('shape').value;const layer=activeLayer();const pts=previewPoints(dragStart,dragNow);if(layer){layer.shapes.push({type:type==='triangle'?'polygon':type,points:pts,...styleNow()});selected={layerId:layer.id,shape:layer.shapes[layer.shapes.length-1]};}
     dragging=false;dragStart=null;dragNow=null;draw();$('status').textContent='วางรูปลง Layer แล้ว';
@@ -306,7 +467,19 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
   $('addLayer').addEventListener('click',()=>{snapshot();const id=nextLayerId++;layers.unshift({id,name:`Layer ${id}`,visible:true,shapes:[],draft:[]});activeLayerId=id;draw();$('status').textContent='เพิ่ม Layer ใหม่แล้ว';});
   $('renameLayer').addEventListener('click',()=>{const l=activeLayer();if(!l)return;const name=prompt('ตั้งชื่อ Layer',l.name);if(name&&name.trim())l.name=name.trim();draw();});
   $('deleteLayer').addEventListener('click',()=>{if(layers.length===1){$('status').textContent='ต้องเหลืออย่างน้อย 1 Layer';return;}snapshot();layers=layers.filter(l=>l.id!==activeLayerId);activeLayerId=layers[0].id;draw();$('status').textContent='ลบ Layer แล้ว';});
-  ['grid','pointSize','labels','shape','fillColor','outlineColor','fillEnabled','outlineEnabled','lineWidth'].forEach(id=>$(id).addEventListener('change',()=>{draw();canvas.style.cursor=$('shape').value==='select'?'default':(spaceDown?'grab':'crosshair');}));
+  const styleControlIds=['fillColor','outlineColor','fillEnabled','outlineEnabled','lineWidth'];
+  let styleSnapped=false;
+  function applyStyleToSelected(){
+    const st=styleNow(), l=activeLayer();
+    if(l&&l.draft.length){ l.draftStyle={...st}; codeDirty=false; draw(); $('status').textContent='เปลี่ยนสี/เส้นของรูปที่กำลังวาดแล้ว'; return; }
+    if(selected&&selected.shape&&layers.some(l2=>l2.id===selected.layerId&&l2.shapes.includes(selected.shape))){
+      if(!styleSnapped){snapshot();styleSnapped=true;}
+      selected.shape.fill=st.fill; selected.shape.outline=st.outline; selected.shape.width=st.width;
+      codeDirty=false; draw(); $('status').textContent='เปลี่ยนสี/เส้นของรูปที่เลือกแล้ว';
+    } else { draw(); $('status').textContent='ยังไม่ได้เลือกรูป — ใช้เครื่องมือ “เลือก” คลิกรูปก่อน (สีนี้จะใช้กับรูปใหม่)'; }
+  }
+  styleControlIds.forEach(id=>{$(id).addEventListener('input',applyStyleToSelected);$(id).addEventListener('change',()=>{applyStyleToSelected();styleSnapped=false;});});
+  ['grid','pointSize','labels','shape'].forEach(id=>$(id).addEventListener('change',()=>{draw();canvas.style.cursor=$('shape').value==='select'?'default':(spaceDown?'grab':'crosshair');}));
   $('snap').addEventListener('change', () => { $('status').textContent = $('snap').checked ? 'เปิดล็อกจุดเข้ากริด' : 'ปิดล็อกจุด — วางได้อิสระ'; });
   $('copy').addEventListener('click', async () => {
     const code = $('codeEditor').value;
@@ -337,7 +510,33 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
   $('saveProject').addEventListener('click',()=>{const blob=new Blob([JSON.stringify(exportProject(),null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='coordinate-canvas-project.json';a.click();URL.revokeObjectURL(a.href);$('status').textContent='บันทึกโปรเจกต์แล้ว';});
   $('loadProjectBtn').addEventListener('click',()=>$('loadProject').click());
   $('loadProject').addEventListener('change',async e=>{const file=e.target.files?.[0];if(!file)return;try{loadProject(JSON.parse(await file.text()));}catch(err){$('status').textContent='โหลดไม่สำเร็จ: '+err.message;}e.target.value='';});
-  $('applyCode').addEventListener('click',()=>{const l=activeLayer();if(!l)return;const raw=$('codeEditor').value;const re=/c\.(create_polygon|create_line|create_rectangle|create_oval)\(([^)]*)\)/g;let m,shapes=[];while((m=re.exec(raw))){const method=m[1],body=m[2];const coordPart=body.replace(/(?:fill|outline)\s*=\s*['\"][^'\"]*['\"]/gi,'').replace(/width\s*=\s*\d+/gi,'');const nums=[...coordPart.matchAll(/-?\d+(?:\.\d+)?/g)].map(x=>Number(x[0]));const fill=(body.match(/fill\s*=\s*['"]([^'"]*)['"]/i)||[])[1]||'';const outline=(body.match(/outline\s*=\s*['"]([^'"]*)['"]/i)||[])[1]||'';const width=Number((body.match(/width\s*=\s*(\d+)/i)||[])[1]||3);let type=method==='create_line'?'line':method==='create_rectangle'?'rect':method==='create_oval'?'oval':'polygon';let pts=[];for(let i=0;i+1<nums.length;i+=2)pts.push({x:nums[i],y:nums[i+1]});if(type==='rect'||type==='oval'){if(pts.length>=2)pts=[pts[0],pts[1]];}if(pts.length>=(type==='polygon'?3:2))shapes.push({type,points:pts,fill,outline,width});}if(!shapes.length){$('status').textContent='ไม่พบคำสั่ง c.create_polygon/line/rectangle/oval ที่อ่านได้';return;}snapshot();l.shapes=shapes;l.draft=[];selected=null;draw();$('status').textContent=`นำโค้ดเข้า Layer นี้แล้ว ${shapes.length} รูป`;});
+  function parseCanvasCode(raw){
+    const re=/c\.(create_polygon|create_line|create_rectangle|create_oval)\(([^)]*)\)/g;let m,shapes=[];
+    while((m=re.exec(raw))){
+      const method=m[1],body=m[2];
+      const coordPart=body.replace(/(?:fill|outline)\s*=\s*['\"][^'\"]*['\"]/gi,'').replace(/width\s*=\s*\d+/gi,'');
+      const nums=[...coordPart.matchAll(/-?\d+(?:\.\d+)?/g)].map(x=>Number(x[0]));
+      const fill=(body.match(/fill\s*=\s*['\"]([^'\"]*)['\"]/i)||[])[1]||'';
+      const outline=(body.match(/outline\s*=\s*['\"]([^'\"]*)['\"]/i)||[])[1]||'';
+      const width=Number((body.match(/width\s*=\s*(\d+)/i)||[])[1]||3);
+      let type=method==='create_line'?'line':method==='create_rectangle'?'rect':method==='create_oval'?'oval':'polygon';let pts=[];
+      for(let i=0;i+1<nums.length;i+=2)pts.push({x:nums[i],y:nums[i+1]});
+      if(type==='rect'||type==='oval'){if(pts.length>=2)pts=[pts[0],pts[1]];}
+      if(pts.length>=(type==='polygon'?3:2))shapes.push({type,points:pts,fill,outline,width});
+    }
+    return shapes;
+  }
+  function applyCodeToCanvas(live=false){
+    const l=activeLayer();if(!l)return false;const shapes=parseCanvasCode($('codeEditor').value);
+    if(!shapes.length){if(!live)$('status').textContent='ไม่พบคำสั่ง c.create_polygon/line/rectangle/oval ที่อ่านได้';return false;}
+    if(!live)snapshot();l.shapes=shapes;l.draft=[];delete l.draftType;delete l.draftStyle;selected=null;
+    if(!live){codeDirty=false;draw();$('status').textContent=`นำโค้ดเข้า Layer นี้แล้ว ${shapes.length} รูป`;}
+    else {const old=codeDirty;codeDirty=true;draw();codeDirty=old;$('status').textContent=`อัปเดตกราฟจากโค้ดแล้ว (${shapes.length} รูป)`;}
+    return true;
+  }
+  $('codeEditor').addEventListener('input',()=>{codeDirty=true;applyCodeToCanvas(true);});
+  $('applyCode').addEventListener('click',()=>applyCodeToCanvas(false));
+
   document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){const tag=e.target?.tagName?.toLowerCase();if(tag==='textarea'||tag==='input'||e.target?.isContentEditable)return;e.preventDefault();undo();}});
   // Start with an example-friendly empty layer; grid and coordinates remain independent of the artwork.
   draw();
