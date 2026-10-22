@@ -49,6 +49,9 @@ body{margin:0;font-family:var(--site-font-body);background:var(--site-background
 .statusbar{flex:none;font-size:12.5px;color:var(--site-primary);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:6px 10px;min-height:30px;display:flex;align-items:center;gap:8px;overflow:hidden}
 #status{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
+.pickbar{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--site-on-background);flex:none}.pickbar label{display:flex;align-items:center;gap:4px;cursor:pointer}
+#pickInfo{display:flex;align-items:center;gap:6px;flex:none;font:12px ui-monospace,Menlo,monospace;color:var(--site-on-background)}#pickInfo[hidden],.pickbar[hidden]{display:none}
+.sw{display:inline-block;width:18px;height:18px;border-radius:5px;border:1px solid var(--line2)}
 /* right side panel with tabs */
 .side{background:var(--surface);border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0;min-width:0}
 .tabs{flex:none;display:grid;grid-template-columns:repeat(6,1fr);border-bottom:1px solid var(--line);background:var(--site-secondary)}
@@ -116,6 +119,7 @@ input[type=color]{width:100%;height:38px;padding:3px;border:1px solid var(--line
     <nav class="toolrail" aria-label="เครื่องมือ">
       <button class="tool" data-tool="select" title="เลือก / ขยับ / ปรับขนาด / หมุน"><span class="ic">➤</span>เลือก</button>
       <button class="tool" data-tool="ref" title="ย้ายรูป Reference"><span class="ic">🖼</span>ย้ายรูป</button>
+      <button class="tool" data-tool="picker" title="ดูดสี — คลิกที่รูป Reference หรือชิ้นงานเพื่อดูดสี (กด Alt ค้างเพื่อสลับ Fill/Outline)"><span class="ic">💧</span>ดูดสี</button>
       <div class="grp">วาด</div>
 <button class="tool" data-tool="polygon" title="Pen / Polygon — คลิกวางมุม หรือคลิกลากเพื่อทำเส้นโค้ง"><span class="ic">✒</span>Pen</button>
       <button class="tool" data-tool="line" title="เส้นตรง"><span class="ic">╱</span>เส้น</button>
@@ -128,7 +132,7 @@ input[type=color]{width:100%;height:38px;padding:3px;border:1px solid var(--line
       <button class="tool" data-tool="convert" title="Convert Point — ลากจากจุด = โค้ง / คลิก = มุมแหลม"><span class="ic">⌃</span>แปลงจุด</button>
       
       <select id="shape" hidden>
-        <option value="select">เลือก / ขยับ / ปรับขนาด</option><option value="ref">ย้ายรูป Reference</option><option value="polygon">Pen / Polygon</option><option value="anchor">เพิ่มจุดยึด</option><option value="convert">แปลงจุด</option><option value="line">เส้น</option><option value="rect">สี่เหลี่ยมผืนผ้า</option><option value="oval">วงรี / วงกลม</option><option value="triangle">สามเหลี่ยม</option><option value="point">จุด</option>
+        <option value="select">เลือก / ขยับ / ปรับขนาด</option><option value="ref">ย้ายรูป Reference</option><option value="picker">ดูดสี</option><option value="polygon">Pen / Polygon</option><option value="anchor">เพิ่มจุดยึด</option><option value="convert">แปลงจุด</option><option value="line">เส้น</option><option value="rect">สี่เหลี่ยมผืนผ้า</option><option value="oval">วงรี / วงกลม</option><option value="triangle">สามเหลี่ยม</option><option value="point">จุด</option>
       </select>
     </nav>
 
@@ -149,7 +153,7 @@ input[type=color]{width:100%;height:38px;padding:3px;border:1px solid var(--line
         <div class="zoom"><button class="ghost" id="zoomOut">−</button><span id="zoomValue">100%</span><button class="ghost" id="zoomIn">＋</button><button class="ghost" id="zoomReset">รีเซ็ต</button></div>
       </div>
       <div class="canvas-wrap"><canvas id="drawing" width="600" height="400" aria-label="พื้นที่วาดพิกัด"></canvas></div>
-      <div class="statusbar"><span id="status">เลือกเครื่องมือด้านซ้าย แล้วคลิกหรือลากบน Canvas — หมุนรูปด้วยจุดกลมเหนือกรอบ</span></div>
+      <div class="statusbar"><span id="pickTarget" class="pickbar" hidden>ดูดสีไปที่ <label><input type="radio" name="pickTarget" value="fill" checked> Fill</label> <label><input type="radio" name="pickTarget" value="outline"> Outline</label></span><span id="pickInfo" hidden><i class="sw"></i><b></b></span><span id="status">เลือกเครื่องมือด้านซ้าย แล้วคลิกหรือลากบน Canvas — หมุนรูปด้วยจุดกลมเหนือกรอบ</span></div>
     </section>
 
     <!-- แผงตั้งค่าแบบแท็บ -->
@@ -304,6 +308,7 @@ input[type=color]{width:100%;height:38px;padding:3px;border:1px solid var(--line
   function drawGrid(s) {
     ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, canvas.width, canvas.height);
     if (ref && ref.visible && !ref.onTop) drawRef();
+    if (cleanRender) return;
     ctx.strokeStyle = '#3aa879'; ctx.lineWidth = 1.3;
     for (let x = 0; x <= s.width; x += s.grid) { ctx.beginPath(); ctx.moveTo(x + .5, 0); ctx.lineTo(x + .5, s.height); ctx.stroke(); }
     for (let y = 0; y <= s.height; y += s.grid) { ctx.beginPath(); ctx.moveTo(0, y + .5); ctx.lineTo(s.width, y + .5); ctx.stroke(); }
@@ -633,11 +638,37 @@ input[type=color]{width:100%;height:38px;padding:3px;border:1px solid var(--line
     x = Math.max(0, Math.min(canvas.width, x)); y = Math.max(0, Math.min(canvas.height, y));
     return {x,y};
   }
+  // ---------- Eyedropper (ดูดสี) ----------
+  let cleanRender=false, pickRaf=0;
+  function sampleColor(x,y){
+    const s=getSettings(), lbOn=$('labels').checked, refOp=ref?ref.opacity:1; $('labels').checked=false; cleanRender=true; if(ref)ref.opacity=1; // ดูดสีจริงของรูป Reference ไม่ใช่สีที่จางลง
+    ctx.clearRect(0,0,canvas.width,canvas.height); drawGrid(s);
+    layers.filter(l=>l.visible).slice().reverse().forEach(l=>l.shapes.forEach(sh=>drawShape(sh)));
+    if(ref&&ref.visible&&ref.onTop)drawRef();
+    const d=ctx.getImageData(Math.max(0,Math.min(canvas.width-1,x)),Math.max(0,Math.min(canvas.height-1,y)),1,1).data;
+    cleanRender=false; if(ref)ref.opacity=refOp; $('labels').checked=lbOn; draw();
+    return '#'+[d[0],d[1],d[2]].map(v=>v.toString(16).padStart(2,'0')).join('');
+  }
+  const pickTargetNow=ev=>{const r=document.querySelector('input[name=pickTarget]:checked');let t=r?r.value:'fill';if(ev&&ev.altKey)t=t==='fill'?'outline':'fill';return t;};
+  function hoverPick(ev){
+    if(pickRaf)return; pickRaf=requestAnimationFrame(()=>{pickRaf=0;
+      const p=getPoint(ev,false),hex=sampleColor(p.x,p.y),info=$('pickInfo');
+      if(info){info.hidden=false;info.querySelector('i').style.background=hex;info.querySelector('b').textContent=hex.toUpperCase()+`  (${p.x}, ${p.y})`;}
+    });
+  }
+  function applyPick(ev){
+    const p=getPoint(ev,false),hex=sampleColor(p.x,p.y),t=pickTargetNow(ev);
+    const col=$(t==='outline'?'outlineColor':'fillColor'),en=$(t==='outline'?'outlineEnabled':'fillEnabled');
+    if(!en.checked){en.checked=true;en.dispatchEvent(new Event('change',{bubbles:true}));}
+    col.value=hex;col.dispatchEvent(new Event('input',{bubbles:true}));col.dispatchEvent(new Event('change',{bubbles:true}));
+    $('status').textContent=`ดูดสี ${hex.toUpperCase()} → ${t==='outline'?'สี Outline':'สี Fill'} แล้ว`+(selItems().length?' (ใช้กับรูปที่เลือกอยู่ด้วย)':'');
+  }
   canvas.addEventListener('pointerdown', event => {
     if(spaceDown || event.button===1){
       event.preventDefault(); panDrag={x:event.clientX,y:event.clientY,left:canvasWrap.scrollLeft,top:canvasWrap.scrollTop}; canvasWrap.classList.add('panning'); canvas.style.cursor='grabbing'; canvas.setPointerCapture?.(event.pointerId); return;
     }
     if(event.button!==0)return;
+    if($('shape').value==='picker'){applyPick(event);return;}
     codeDirty=false;
     const type=$('shape').value, p=getPoint(event, !['select','anchor','convert','ref'].includes(type)), layer=activeLayer();
     const overSelectedHandle = () => {
@@ -770,6 +801,7 @@ input[type=color]{width:100%;height:38px;padding:3px;border:1px solid var(--line
   });
   canvas.addEventListener('pointermove', event=>{
     if(panDrag){canvasWrap.scrollLeft=panDrag.left-(event.clientX-panDrag.x);canvasWrap.scrollTop=panDrag.top-(event.clientY-panDrag.y);return;}
+    if($('shape').value==='picker'){hoverPick(event);return;}
     if(marquee){marquee.now=getPoint(event,false);draw();return;}
     if(refDrag&&ref){const p=getPoint(event,false);ref.x=refDrag.ox+p.x-refDrag.sx;ref.y=refDrag.oy+p.y-refDrag.sy;draw();return;}
     if(editDrag&&['moveMulti','rotateMulti','resizeMulti'].includes(editDrag.mode)){handleMulti(event);return;}
@@ -978,7 +1010,7 @@ input[type=color]{width:100%;height:38px;padding:3px;border:1px solid var(--line
   // ---- tool rail <-> hidden #shape select ----
   const sel = $('shape');
   const toolBtns = [...document.querySelectorAll('.tool')];
-  const syncTools = () => toolBtns.forEach(b => b.classList.toggle('active', b.dataset.tool === sel.value));
+  const syncTools = () => { toolBtns.forEach(b => b.classList.toggle('active', b.dataset.tool === sel.value)); const on = sel.value === 'picker'; $('pickTarget').hidden = !on; if (!on) $('pickInfo').hidden = true; };
   toolBtns.forEach(b => b.addEventListener('click', () => {
     sel.value = b.dataset.tool;
     sel.dispatchEvent(new Event('change', {bubbles:true}));
