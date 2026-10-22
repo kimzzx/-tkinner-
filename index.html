@@ -67,7 +67,7 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
 <body>
 <div id="app" data-sites-preview-theme="custom">
   <header>
-    <h1>Ru Phikut</h1>
+    <h1>Ruphikut</h1>
     <p>กำหนดขนาด Canvas แล้วคลิกเพื่อวางจุด ดูพิกัดและนำไปใช้กับ Tkinter ได้ทันที</p>
   </header>
   <main>
@@ -85,7 +85,7 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
         <label class="check"><input id="outlineEnabled" type="checkbox" checked> เปิดใช้สี Outline</label>
         <label class="check"><input id="snap" type="checkbox"> ล็อกจุดให้ตรงเส้นกริด</label>
         <label class="check"><input id="labels" type="checkbox" checked> แสดงชื่อจุดและพิกัด</label>
-        <div class="actions"><button class="primary" id="apply">ปรับขนาด Canvas</button><button class="secondary" id="finish">จบรูป / วางรูป (Enter)</button><button class="secondary" id="dupShape">ทำสำเนารูปที่เลือก (Ctrl+D)</button><button class="secondary" id="undo">ย้อนกลับ (Ctrl+Z)</button><button class="ghost" id="clear">ล้าง Layer นี้</button></div><h2 style="margin-top:22px">บันทึก / โหลด</h2><div class="actions"><button class="primary" id="saveProject">บันทึกโปรเจกต์</button><button class="secondary" id="loadProjectBtn">โหลดโปรเจกต์</button><input id="loadProject" type="file" accept=".json,application/json" hidden></div><p class="hint">บันทึกเป็นไฟล์ JSON เพื่อเก็บทุก Layer รูปทรง และการตั้งค่าไว้เปิดต่อภายหลัง</p>
+        <div class="actions"><button class="primary" id="apply">ปรับขนาด Canvas</button><button class="secondary" id="finish">จบรูป / วางรูป (Enter)</button><button class="secondary" id="dupShape">ทำสำเนารูปที่เลือก (Ctrl+D)</button><button class="ghost" id="delShape">ลบรูปที่เลือก (Del)</button><button class="secondary" id="undo">ย้อนกลับ (Ctrl+Z)</button><button class="ghost" id="clear">ล้าง Layer นี้</button></div><h2 style="margin-top:22px">บันทึก / โหลด</h2><div class="actions"><button class="primary" id="saveProject">บันทึกโปรเจกต์</button><button class="secondary" id="loadProjectBtn">โหลดโปรเจกต์</button><input id="loadProject" type="file" accept=".json,application/json" hidden></div><p class="hint">บันทึกเป็นไฟล์ JSON เพื่อเก็บทุก Layer รูปทรง และการตั้งค่าไว้เปิดต่อภายหลัง</p>
         <h2 style="margin-top:22px">Layers</h2>
         <div class="actions"><button class="primary" id="addLayer">＋ เพิ่ม Layer</button><button class="secondary" id="dupLayer">ทำสำเนา Layer</button><button class="secondary" id="renameLayer">เปลี่ยนชื่อ</button><button class="ghost" id="deleteLayer">ลบ Layer</button></div>
         <div id="layers" class="layer-list"></div>
@@ -251,6 +251,14 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
     layer.shapes.push(copy);
     selected={layerId:layer.id,shape:copy}; activeLayerId=layer.id;
     codeDirty=false; draw(); $('status').textContent='ทำสำเนารูปแล้ว (เลื่อนไป +20,+20 พร้อมเลือกอัตโนมัติ)';
+  }
+  function deleteSelected(){
+    if(!selected||!selected.shape){$('status').textContent='ยังไม่ได้เลือกรูป — ใช้เครื่องมือ “เลือก” คลิกรูปก่อน';return;}
+    const layer=layers.find(l=>l.id===selected.layerId&&l.shapes.includes(selected.shape));
+    if(!layer){selected=null;draw();return;}
+    snapshot();
+    layer.shapes=layer.shapes.filter(sh=>sh!==selected.shape);
+    selected=null; codeDirty=false; draw(); $('status').textContent='ลบรูปแล้ว (Ctrl+Z เพื่อย้อนกลับ)';
   }
   let shapeClipboard=null,pasteCount=0;
   function copySelected(){
@@ -503,6 +511,7 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
   $('apply').addEventListener('click', resizeCanvas);
   $('finish').addEventListener('click',finishDraft);
   $('dupShape').addEventListener('click',duplicateShape);
+  $('delShape').addEventListener('click',deleteSelected);
   $('dupLayer').addEventListener('click',()=>duplicateLayer(activeLayerId));
   $('undo').addEventListener('click', undo);
   $('clear').addEventListener('click', () => { const l=activeLayer();if(l){snapshot();l.shapes=[];l.draft=[];selected=null;}draw();$('status').textContent='ล้างรูปใน Layer นี้แล้ว'; });
@@ -586,6 +595,7 @@ input[type=color] { width: 100%; height: 36px; padding: 3px; border: 1px solid #
     if(typing||tag==='button')return;
     const mod=e.ctrlKey||e.metaKey,k=e.key.toLowerCase();
     if(e.key==='Enter'&&!mod){const l=activeLayer();if(l&&l.draft.length){e.preventDefault();finishDraft();}}
+    else if((e.key==='Delete'||e.key==='Backspace')&&!mod){if(selected&&selected.shape){e.preventDefault();deleteSelected();}}
     else if(mod&&k==='d'){e.preventDefault();duplicateShape();}
     else if(mod&&k==='c'){if(copySelected())e.preventDefault();}
     else if(mod&&k==='v'){if(shapeClipboard){e.preventDefault();pasteShape();}}
